@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  backend-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+    depends_on:
+      - database
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=mongodb+srv://d123:d123@cluster0.htezgft.mongodb.net/restaurant?retryWrites=true&w=majority
+
+  database:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

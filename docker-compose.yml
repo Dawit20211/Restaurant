@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  react-app:
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+
+  backend-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile.dev
+    volumes:
+      - ./server:/app
+    depends_on:
+      - database
+
+  database:
+    image: mongo:latest
