@@ -26,7 +26,7 @@ jobs:
         node-version: '20.6.1'
 
     - name: Install dependencies
-      run: cd restaurant/server && yarn install
+      run: cd Server && yarn install
 
     - name: Build Docker containers
       run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d
