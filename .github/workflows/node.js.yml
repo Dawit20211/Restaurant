@@ -19,20 +19,10 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: '14'
-
-    - name: Set up Docker
-      run: sudo apt-get update && sudo apt-get install -y docker.io
-
-    - name: Set up MongoDB Atlas connection URI
-      env:
-        TEST_DATABASE_URI: ${{ secrets.TEST_DATABASE_URI }}
+        node-version: '20.6.1'
 
     - name: Run server tests
       run: |
-        docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml up -d
-        docker exec restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${TEST_DATABASE_URI} && cd /app && yarn test"
-      shell: bash
-
-    - name: Stop Docker containers
-      run: docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml down
+        cd server
+        yarn install
+        yarn test
