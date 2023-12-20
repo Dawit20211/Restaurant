@@ -23,10 +23,17 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v3
       with:
-        node-version: '14.17.6'
+        node-version: '20..6.1'
+
+    - name: Print current working directory
+      run: pwd
+
+    - name: List directory contents
+      run: ls -R
+
 
     - name: Install dependencies
-      run: docker-compose -f docker-compose.yml -f ${{ github.workspace }}/client/docker-compose-client-dev.yml -f ${{ github.workspace }}/server/docker-compose-server-dev.yml up -d --build
+      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d --build
 
     - name: Build Docker containers
       run: |
