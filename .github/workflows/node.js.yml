@@ -23,6 +23,6 @@ jobs:
 
     - name: Run server tests
       run: |
-        cd server
+        cd Server
         yarn install
         yarn test
