@@ -13,7 +13,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -26,19 +25,18 @@ jobs:
         node-version: '20.6.1'
 
     - name: Install dependencies
-      run: cd Server && yarn install
+      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d --build
+      working-directory: /restaurant
 
-    - name: Build Docker containers
-      run: |
-        cd restaurant
-        docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./Server/docker-compose-server-dev.yml up -d
+    - name: Run yarn install inside the server container
+      run: docker exec -it restaurant-backend-server-1 /bin/bash -c "cd /app && yarn install"
+      working-directory: /restaurant
 
-    - name: Run tests with the testing database
+    - name: Run tests with testing database
       run: |
         docker exec -it restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${{ secrets.TEST_DATABASE_URI }} && yarn jest"
-      working-directory: restaurant
+      working-directory: /restaurant
 
     - name: Stop Docker containers
-      run: |
-        cd restaurant
-        docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./Server/docker-compose-server-dev.yml down
+      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml down
+      working-directory: /restaurant
