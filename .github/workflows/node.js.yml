@@ -1,6 +1,3 @@
-# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
-
 name: Node.js CI
 
 on:
@@ -13,7 +10,6 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -32,5 +28,8 @@ jobs:
     - name: Run server tests
       run: |
         docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml up -d
-        docker exec -it restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${TEST_DATABASE_URI} && yarn test"
-        docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml down
+        docker exec restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${TEST_DATABASE_URI} && cd /app && yarn jest"
+        
+    - name: Cleanup Docker containers
+      if: always()
+      run: docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml down
