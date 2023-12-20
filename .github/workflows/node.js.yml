@@ -1,0 +1,43 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20.6.1'
+
+    - name: Install dependencies
+      run: yarn install
+      working-directory: /server
+
+    - name: Build Docker containers
+      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d
+      working-directory: restaurant
+
+    - name: Run tests with testing database
+      run: |
+        docker exec -it restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${{ secrets.TEST_DATABASE_URI }} && yarn jest"
+      working-directory: restaurant
+
+    - name: Stop Docker containers
+      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml down
+      working-directory: restaurant
