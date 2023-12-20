@@ -29,4 +29,4 @@ jobs:
     - name: Run server tests
       run: |
         cd Server
-        yarn jest
+        yarn test
