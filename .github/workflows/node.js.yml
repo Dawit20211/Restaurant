@@ -25,27 +25,24 @@ jobs:
       with:
         node-version: '20.6.1'
 
+    - name: Set working directory
+      run: cd $GITHUB_WORKSPACE/Server
+
     - name: Print current working directory
       run: pwd
-
+    
     - name: List directory contents
       run: ls -R
-
-
-    - name: Install dependencies
-      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./Server/docker-compose-server-dev.yml up -d --build
-
-    - name: Build Docker containers
+    
+    - name: Build and run Docker containers
       run: |
-        cd restaurant
-        docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d
-
+        docker-compose -f $GITHUB_WORKSPACE/docker-compose.yml -f $GITHUB_WORKSPACE/client/docker-compose-client-dev.yml -f $GITHUB_WORKSPACE/Server/docker-compose-server-dev.yml up -d --build
+    
     - name: Run tests with the testing database
       run: |
         docker exec -it restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${{ secrets.TEST_DATABASE_URI }} && yarn jest"
-      working-directory: restaurant
-
+      working-directory: $GITHUB_WORKSPACE/Server
+    
     - name: Stop Docker containers
       run: |
-        cd restaurant
-        docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml down
+        docker-compose -f $GITHUB_WORKSPACE/docker-compose.yml -f $GITHUB_WORKSPACE/client/docker-compose-client-dev.yml -f $GITHUB_WORKSPACE/Server/docker-compose-server-dev.yml down
