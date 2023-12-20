@@ -25,24 +25,12 @@ jobs:
       with:
         node-version: '20.6.1'
 
-    - name: Set working directory
-      run: cd $GITHUB_WORKSPACE/Server
+    - name: Set up MongoDB Atlas connection URI
+      env:
+        TEST_DATABASE_URI: ${{ secrets.TEST_DATABASE_URI }}
 
-    - name: Print current working directory
-      run: pwd
-    
-    - name: List directory contents
-      run: ls -R
-    
-    - name: Build and run Docker containers
+    - name: Run server tests
       run: |
-        docker-compose -f $GITHUB_WORKSPACE/docker-compose.yml -f $GITHUB_WORKSPACE/client/docker-compose-client-dev.yml -f $GITHUB_WORKSPACE/Server/docker-compose-server-dev.yml up -d --build
-    
-    - name: Run tests with the testing database
-      run: |
-        docker exec -it restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${{ secrets.TEST_DATABASE_URI }} && yarn jest"
-      working-directory: $GITHUB_WORKSPACE/Server
-    
-    - name: Stop Docker containers
-      run: |
-        docker-compose -f $GITHUB_WORKSPACE/docker-compose.yml -f $GITHUB_WORKSPACE/client/docker-compose-client-dev.yml -f $GITHUB_WORKSPACE/Server/docker-compose-server-dev.yml down
+        docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml up -d
+        docker exec -it restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${TEST_DATABASE_URI} && yarn test"
+        docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml down
