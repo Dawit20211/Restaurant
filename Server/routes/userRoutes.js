@@ -16,3 +16,4 @@ router.post('/login', authUser);
 router.get('/logout', logoutUser);
 router.route('/profile').get(getUserPofile).put(updateUserProfile);
 router.route('/:id').get(getUserById).delete(deleteUser).put(updateUserProfile);
+

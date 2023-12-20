@@ -19,24 +19,30 @@ const orderSchema = mongoose.Schema({
                 ref: 'MenuItem'
             },
         }
-    ],
+    ],    
     deliveryAddress:{
         address: { type: String, required: true },
         city: { type: String, required: true },
         postalCode: { type: String, required: true },
+        phoneNumber: { type: Number, required: true },
         country: { type: String, required: true },
     },
     paymentMethod:{
         type: String,
         required: true,
     },
-    itemPrice:{
-        id:{ type: String},
-        status: {type: String},
-        updated_time:{ type: String},
-        email_address:{ type: String},
+    paymentResult: {
+        id: { type: String },
+        status: { type: String },
+        update_time: { type: String },
+        email_address: { type: String },
     },
-    taxPrice: {
+      itemsPrice: {
+        type: Number,
+        required: true,
+        default: 0.0,
+    },
+      taxPrice: {
         type: Number,
         required: true,
         default: 0.0,
