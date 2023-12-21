@@ -33,7 +33,8 @@ jobs:
 
       - name: Build Docker containers
         run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d
-
+        working-directory: ./server
+              
       - name: Run tests with testing database
         run: |
           docker exec -it restaurant-backend-server-1 /bin/bash -c "cd /app && export TEST_DATABASE_URI=${{ secrets.TEST_DATABASE_URI }} && yarn test"
