@@ -32,7 +32,7 @@ jobs:
           chmod +x /usr/local/bin/docker-compose 
 
       - name: Build Docker containers
-        run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f up -d
+        run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml up -d
         working-directory: ${{ github.workspace }}
 
               
