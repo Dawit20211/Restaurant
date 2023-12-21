@@ -1,18 +1,21 @@
 import React from 'react'
-import MENU from './components/menu';
 import { BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import Menu from './pages/MenuPage';
+import Home from './pages/HomePage';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-   
+      <Navbar /> 
         <div className="flex-grow">
           <Routes>
-          <Route path="/" element={<MENU/>} />
-        
+          <Route path="/" element={<Home/>} />
+          <Route path="/menu" element={<Menu/>} />  
           </Routes>
-        </div>but if 
-       
+        </div>
+        <Footer />
       </div>
     </Router>
   );
