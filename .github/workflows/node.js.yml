@@ -1,5 +1,3 @@
-name: Node.js CI
-
 on:
   push:
     branches:
@@ -14,18 +12,29 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20.6.1'
+
       - name: Install dependencies
         run: yarn install
         working-directory: ${{ github.workspace }}/server
+
       - name: Build Docker containers
         run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d
+
+      - name: Debug
+        run: |
+          docker exec restaurant-backend-server-1 pwd
+          docker exec restaurant-backend-server-1 ls -l
+        working-directory: ${{ github.workspace }}/server
+
       - name: Run tests with testing database
         run: |
           docker exec -it restaurant-backend-server-1 /bin/bash -c "export TEST_DATABASE_URI=${{ secrets.TEST_DATABASE_URI }} && yarn test"
         working-directory: ${{ github.workspace }}/server
+
       - name: Stop Docker containers
         run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml down
