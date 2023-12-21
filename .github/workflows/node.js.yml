@@ -20,7 +20,7 @@ jobs:
           node-version: '20.6.1'
       - name: Install dependencies
         run: yarn install
-        working-directory: /Server
+        working-directory: ./server
       - name: Build Docker containers
         run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./Server/docker-compose-server-dev.yml up -d
       - name: Run tests with testing database
