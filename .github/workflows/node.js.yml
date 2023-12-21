@@ -26,6 +26,11 @@ jobs:
         run: yarn install
         working-directory: ./server
 
+      - name: Install Docker Compose
+        run: |
+          curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(unane -s)-$(uname -m)" -o /usr/local/bin/docker-compose 
+          chmod +x /usr/local/bin/docker-compose 
+
       - name: Build Docker containers
         run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f up -d
         working-directory: ${{ github.workspace }}
