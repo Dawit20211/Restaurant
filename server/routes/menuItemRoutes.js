@@ -1,10 +1,14 @@
 import express from 'express';
 const router = express.Router();
+import { 
+    getMenuItems, 
+    getMenuItemsById,
 
-router.get('/', (req, res) =>{
-    
-})
+} from '../controllers/menuItemsController.js';
 
-router.get('/:id', (req, res)=>{
+router.get('/', getMenuItems);
 
-})
+router.get('/:id', getMenuItemsById)
+
+
+export default router;

@@ -1,11 +1,34 @@
-import React from 'react'
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import MenuItem from '../components/MenuItem';
 
 const MenuPage = () => {
-  return (
-    <div className='grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
-      
-    </div>
-  )
-}
+  const [menu, setMenu] = useState([]);
 
-export default MenuPage
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const { data } = await axios.get('http://localhost:8000/api/menu');
+        setMenu(data);
+      } catch (error) {
+        console.log('Error response:', error.response);
+      }
+    };
+    fetchMenu();
+  }, []);
+
+  return (
+    <div className='bg-white'>
+      <h1 className='text-black'>Our Delicious Menu</h1>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+        {menu.map((item) => (
+          <div key={item._id} className='col-span-1'>
+            <MenuItem item={item} />
+          </div>
+        ))}
+      </div>
+      </div> 
+  );
+};
+
+export default MenuPage;

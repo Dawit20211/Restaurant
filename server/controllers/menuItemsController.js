@@ -1,4 +1,4 @@
-import MenuItem from '../models/menuItemModel';
+import MenuItem from '../models/menuItemModel.js';
 import asyncHandler from 'express-async-handler';
 
 const getMenuItems = asyncHandler(async(req, res) =>{
@@ -6,7 +6,7 @@ const getMenuItems = asyncHandler(async(req, res) =>{
     res.json(menuItems);
 })
 
-const getMneuItemsById = asyncHandler(async(req, res) =>{
+const getMenuItemsById = asyncHandler(async(req, res) =>{
     const menuItem = await MenuItem.findById(req.params.id)
     if(menuItem){
        return res.json(menuItem)
@@ -16,4 +16,5 @@ const getMneuItemsById = asyncHandler(async(req, res) =>{
     }
 })
 
+export {getMenuItems, getMenuItemsById}
 
