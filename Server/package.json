@@ -4,7 +4,7 @@
   "description": "Server for the Restaurant website",
   "type": "module",
   "main": "server.js",
-  "repository": "https://github.com/Dawit20211/Restaurant-.git",
+  "repository": "https://github.com/Dawit20211/Restaurant.git",
   "license": "MIT",
   "scripts": {
     "test": "jest",
