@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Start containers
-      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml up -d --build
+      run: docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml up -d --build
 
     - name: Install node
       uses: actions/setup-node@v3
@@ -34,4 +34,4 @@ jobs:
 
     - name: Stop containers
       if: always()
-      run: docker-compose -f docker-compose.yml -f ./client/docker-compose-client-dev.yml -f ./server/docker-compose-server-dev.yml down
+      run: docker-compose -f docker-compose.yml -f client/docker-compose-client-dev.yml -f server/docker-compose-server-dev.yml down
