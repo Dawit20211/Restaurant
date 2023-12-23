@@ -24,8 +24,8 @@ jobs:
         
     - name: Start containers
       run: |
+        pwd
         ls -la 
-        ls -la client
         ls -la server
         docker-compose -f "docker-compose.yml" -f "client/docker-compose-client-dev.yml" -f "docker-compose-server-dev.yml" up -d --build
         
