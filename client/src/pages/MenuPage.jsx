@@ -19,7 +19,7 @@ const MenuPage = () => {
 
   return (
     <div className='bg-white'>
-      <h1 className='text-black'>Our Delicious Menu</h1>
+      <h1 className='text-black p-4 font-bold'>Our Delicious Menu</h1>
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
         {menu.map((item) => (
           <div key={item._id} className='col-span-1'>

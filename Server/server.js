@@ -3,17 +3,19 @@ import dotenv from 'dotenv';
 dotenv.config();
 import connectDB from './config/db.js';
 import cors from 'cors';
+import bodyParser from 'body-parser'
 import menuItemRoutes from './routes/menuItemRoutes.js';
 import userRoutes from './routes/userRoutes.js';
-connectDB(); 
 
 const app = express();
-
+app.use(bodyParser.json());
+connectDB(); 
 
 const corsOptions ={
     origin:'http://localhost:3000',
-    credentials:true,  //access-control-allow-credentials:true
+    credentials:true, 
 }
+
 app.use(cors(corsOptions));
 
 app.use(express.json());

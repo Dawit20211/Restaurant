@@ -3,7 +3,7 @@ import users from "./data/users.js";
 import colors from "colors";
 import menuItems from "./data/menuItems.js";
 import User from "./models/userModel.js";
-import MenuItem from "./models/menuItem.js";
+import MenuItem from "./models/menuItemModel.js";
 import Order from "./models/orderModel.js";
 import connectDB from "./config/db.js";
 
