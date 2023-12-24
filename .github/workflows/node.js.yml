@@ -28,9 +28,12 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
-    - name: Run tests
-      run: yarn run test
+    - name: Install Jest
+      run: yarn add --dev jest
       working-directory: ./Server
+      
+    - name: Run tests
+      run: yarn test
 
     - name: Stop containers
       if: always()
