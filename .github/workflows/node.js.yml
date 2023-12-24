@@ -33,8 +33,7 @@ jobs:
       working-directory: ./Server
       
     - name: Run tests
-      run: yarn run test
-      working-directory: ./Server
+      run: yarn test
 
     - name: Stop containers
       if: always()
