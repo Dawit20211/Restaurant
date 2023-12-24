@@ -23,11 +23,7 @@ jobs:
         node-version: 20.6.1
         
     - name: Start containers
-      working-directory: restaurant/server
       run: |
-        ls -la 
-        ls -la client
-        ls -la server
         docker-compose -f "docker-compose.yml" -f "client/docker-compose-client-dev.yml" -f "docker-compose-server-dev.yml" up -d --build
         
     - name: Install dependencies
