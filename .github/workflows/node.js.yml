@@ -23,8 +23,8 @@ jobs:
         node-version: 20.6.1
         
     - name: Start containers
+      working-directory: restaurant/server
       run: |
-        echo "Current working directory: $(pwd)"
         ls -la 
         ls -la client
         ls -la server
