@@ -24,6 +24,13 @@ jobs:
         
     - name: Start containers
       run: docker-compose up -d --build
+
+    - name: Build React App
+      run: docker build -f ./client/Dockerfile.dev 
+
+    - name: Build Backend Server
+      run: docker build -f ./Server/Dockerfile.dev 
+
         
     - name: Install dependencies
       run: yarn install
