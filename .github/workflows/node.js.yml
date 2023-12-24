@@ -28,6 +28,10 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
+    - name: Install Jest
+      run: yarn add --dev jest
+      working-directory: ./Server
+      
     - name: Run tests
       run: yarn run test
       working-directory: ./Server
