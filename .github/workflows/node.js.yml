@@ -24,7 +24,7 @@ jobs:
         
     - name: Start containers
       run: |
-        pwd
+        echo "Current working directory: $(pwd)"
         ls -la 
         ls -la client
         ls -la server
