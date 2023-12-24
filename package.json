@@ -7,7 +7,12 @@
   "repository": "https://github.com/Dawit20211/Restaurant-.git",
   "author": "Dawit20211 <dawit.habte@students.plymouth.ac.uk>",
   "license": "MIT",
+
+  "devDependencies": {
+    "jest": "^29.7.0"
+  },
+
   "scripts": {
-    
+    "test": "jest"
   }
 }
