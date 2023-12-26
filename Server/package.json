@@ -8,7 +8,9 @@
   "scripts": {
     "test": "jest",
     "start": "node server.js",
-    "server": "nodemon server/server.js"
+    "server": "nodemon server/server.js",
+    "data:import": "node seeder.js",
+    "data:destroy": "node seeder.js -d"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

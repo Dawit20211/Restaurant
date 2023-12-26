@@ -4,7 +4,7 @@ dotenv.config();
 import connectDB from './config/db.js';
 import cors from 'cors';
 import bodyParser from 'body-parser'
-import menuItemRoutes from './routes/menuItemRoutes.js';
+import menuRoutes from './routes/menuRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
 const app = express();
@@ -28,7 +28,7 @@ app.get('/', (req, res) =>{
     res.send('its running')
 })
 
-app.use('/api/menu', menuItemRoutes);
+app.use('/api/menu', menuRoutes);
 app.use('/api/users', userRoutes);
 
 app.listen(port,() =>{

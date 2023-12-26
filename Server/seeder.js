@@ -1,9 +1,9 @@
 import dotenv from "dotenv";
 import users from "./data/users.js";
 import colors from "colors";
-import menuItems from "./data/menuItems.js";
+import menu from "./data/menu.js";
 import User from "./models/userModel.js";
-import MenuItem from "./models/menuItemModel.js";
+import Menu from "./models/menuModel.js";
 import Order from "./models/orderModel.js";
 import connectDB from "./config/db.js";
 
@@ -14,17 +14,17 @@ const importData = async () => {
     try {
         await connectDB();
         await Order.deleteMany();
-        await MenuItem.deleteMany();
+        await Menu.deleteMany();
         await User.deleteMany();
 
         const createdUsers = await User.insertMany(users); // returns an array of users
         const adminUser = createdUsers[0]._id; // the first user in the array is the admin user which is set in the data/users.js file
 
-        const sampleMenuItems = menuItems.map((menuItem) => { // map through the menuItems array and add the admin user to each menuItem
-            return {...menuItem, user: adminUser};
+        const sampleMenu = menu.map((menu) => { // map through the menuItems array and add the admin user to each menuItem
+            return {...menu, user: adminUser};
         })
 
-        await MenuItem.insertMany(sampleMenuItems); 
+        await Menu.insertMany(sampleMenu); 
 
         console.log('Data Imported Successfully'.green.inverse);
         process.exit();
@@ -35,8 +35,9 @@ const importData = async () => {
 
 const destroyData = async () => {
     try {
+        await connectDB();
         await Order.deleteMany();
-        await MenuItem.deleteMany();
+        await Menu.deleteMany();
         await User.deleteMany();
 
         console.log('Data Destroyed Successfully'.red.inverse);

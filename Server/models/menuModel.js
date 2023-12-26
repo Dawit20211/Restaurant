@@ -15,7 +15,7 @@ const reviewSchema = mongoose.Schema({
 })
 
 
-const menuItemSchema = mongoose.Schema({
+const menuSchema = mongoose.Schema({
     
     user:{
         type: mongoose.Schema.Types.ObjectId,
@@ -59,6 +59,6 @@ const menuItemSchema = mongoose.Schema({
     timestamps: true,
 })
 
-const MenuItem = mongoose.model('MenuItem', menuItemSchema)
+const Menu = mongoose.model('Menu', menuSchema)
 
-export default MenuItem;
+export default Menu;

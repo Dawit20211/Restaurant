@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import MenuItem from '../components/MenuItem';
+import Menu from '../components/Menu';
 
 const MenuPage = () => {
   const [menu, setMenu] = useState([]);
@@ -18,16 +18,15 @@ const MenuPage = () => {
   }, []);
 
   return (
-    <div className='bg-white'>
-      <h1 className='text-black p-4 font-bold'>Our Delicious Menu</h1>
-      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'>
+    <div className='bg-interesting-color min-h-screen'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 m-3'>
         {menu.map((item) => (
           <div key={item._id} className='col-span-1'>
-            <MenuItem item={item} />
+            <Menu item={item} />
           </div>
         ))}
       </div>
-      </div> 
+    </div>
   );
 };
 export default MenuPage;
