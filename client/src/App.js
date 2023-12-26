@@ -4,6 +4,8 @@ import Menu from './pages/MenuPage';
 import Home from './pages/HomePage';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
+import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 function App() {
   return (
     <Router>
@@ -13,6 +15,8 @@ function App() {
           <Routes>
           <Route path="/" element={<Home/>} />
           <Route path="/menu" element={<Menu/>} />  
+          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/register" element={<RegisterPage/>} />
           </Routes>
         </div>
         <Footer />
