@@ -9,9 +9,18 @@ export const menusApiSlice = apiSlice.injectEndpoints({
                 method: "GET"
             }),
             keepUnusedDataFor: 5
-        })
+        }),
+
+        getMenu: builder.query({
+            query: (menuId) => ({
+                url: `${MENU_URL}/${menuId}`,
+                method: "GET"
+            }),
+            keepUnusedDataFor: 5
+        }),
+        
     })
 })
 
 
-export const { useGetMneusQuery } = menusApiSlice;
+export const { useGetMneusQuery, useGetMenuQuery } = menusApiSlice;

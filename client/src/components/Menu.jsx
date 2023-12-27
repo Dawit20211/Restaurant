@@ -1,16 +1,20 @@
 import React from 'react';
-
-const Menu = ({ item }) => {
+import { Link } from 'react-router-dom';
+import Rating from './Rating';
+const Menu = ({ menu }) => {
   return (
-    <div className=' p-4 rounded-md shadow-md mx-3 my-3 bg-black'>
-      <img src={item.image} alt={item.name} className='w-full h-32 object-cover mb-4 rounded-md' />
-      <h3 className='text-lg font-semibold text-white'>{item.name}</h3>
-      <p className='text-gray-200 '>{item.description}</p>
-      <div className='flex items-center justify-between mt-2'>
-        <span className='text-white font-bold'>{`£${item.price.toFixed(2)}`}</span>
-        <div className='flex items-center'>
-          <span className='mr-2'>{`Rating: ${item.rating.toFixed(1)}`}</span>
-          <span>{`Reviews: ${item.numReviews}`}</span>
+    <div className='transform transition-transform hover:scale-105'>
+      <Link to={`/menu/${menu._id}`}>
+        <img src={menu.image} alt={menu.name} className='w-full h-32 object-cover mb-3 rounded-md mt-0 transform transition-transform hover:scale-105' />
+      </Link>
+      <Link to={`/menu/${menu._id}`}>
+        <h3 className='text-lg font-semibold text-black'>{menu.name}</h3>
+      </Link>
+      <p className='text-gray-800 h-20 overflow-hidden'>{menu.description}</p>
+      <div className='flex items-center mt-2'>
+        <span className='text-black font-bold'>{`£${menu.price.toFixed(2)}`}</span>
+        <div className='ml-4'>
+          <Rating value={menu.rating} text={`Reviews: ${menu.numReviews}`}/>
         </div>
       </div>
     </div>

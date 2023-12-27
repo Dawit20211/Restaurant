@@ -9,7 +9,7 @@ const FormContainer = ({ logo, buttonText, onSubmit, children }) => {
           {logo && (
             
             <div className="mb-4 text-center">
-              <Link to="/">
+              <Link to='/'>
               <h2 className="text-2xl font-thin leading-9 tracking-tight text-gray-900">{logo}</h2>
               </Link>
             </div>

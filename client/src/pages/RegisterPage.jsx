@@ -7,6 +7,7 @@ const RegisterPage = () => {
 };
 
   return (
+    
     <FormContainer logo="SuFlavours" buttonText="Sign Up" onSubmit={handleRegister}>
       <div>
         <label htmlFor="name" className="block text-sm font-medium leading-6 text-gray-900">
