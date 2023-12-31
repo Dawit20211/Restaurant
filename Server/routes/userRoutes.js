@@ -1,4 +1,5 @@
 import express from 'express';
+import { validateLogin, validateRegister, validate } from '../middleware/validationMiddleware/authValidation.js';
 const router = express.Router();
 import {
     authUser,
@@ -12,10 +13,11 @@ import {
     updateUser,
 } from '../controllers/userController.js';
 
-router.route('/').post(resgisterUser).get(getUsers);
-router.post('/login', authUser);
+router.post('/register', validateRegister, validate, resgisterUser)
+router.post('/login', validateLogin, validate, authUser);
+router.get('/', getUsers);
 router.post('/logout', logoutUser);
 router.route('/profile').get(getUserPofile).put(updateUserProfile);
-router.route('/:id').get(getUserById).delete(deleteUser).put(updateUserProfile).put(updateUser);
+router.route('/:id').get(getUserById).delete(deleteUser).put(updateUser);
 
 export default router;

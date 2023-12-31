@@ -5,6 +5,7 @@ import connectDB from './config/db.js';
 import cors from 'cors';
 import bodyParser from 'body-parser'
 import { notFoundError, errorHandler } from './middleware/errorHandelMiddleware.js';
+import { validate } from './middleware/validationMiddleware/authValidation.js';
 import menuRoutes from './routes/menuRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
@@ -24,18 +25,14 @@ const corsOptions ={
 app.use(cors(corsOptions));
 const port = process.env.PORT || 8000;
 
-app.get('/', (req, res) =>{
-
-    res.send('its running')
-})
-
+app.use(validate);
 
 app.use('/api/menu', menuRoutes);
 app.use('/api/users', userRoutes);
 
+
 app.use(notFoundError)
 app.use(errorHandler)
-
 
 app.listen(port,() =>{
     console.log(`server running on port: ${port}`)
