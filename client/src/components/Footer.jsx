@@ -20,11 +20,10 @@ const Footer = () => {
         <p className="text-xs">123 Sushi Street, Plymouth PL1 1PZ</p>
         <p className="text-xs mb-4">Phone: (+44) 123-4567 | Email: info@suflavours.com</p>
         <div className="border-t border-white mt-4 pt-4">
-          <p className="text-xs">&copy; {currentYear} SuFlavours. All rights reserved.</p>
+          <p className="text-xs">&copy; {currentYear} SuFlavours.</p>
         </div>
       </div>
     </footer>
   );
 };
-
 export default Footer;

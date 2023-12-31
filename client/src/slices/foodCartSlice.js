@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { updateCart } from '../Utils/FoodCartUtil';
 
 const initialState = localStorage.getItem('foodCart') ? 
 JSON.parse(localStorage.getItem('foodCart')) : {foodCartItems : []}
-
-const addDecimals = (num) => {return (Math.round(num * 100) / 100).toFixed(2);}
 
 const foodCartSlice = createSlice({
     name: 'foodCart',
@@ -20,27 +19,17 @@ const foodCartSlice = createSlice({
             } else {
                 state.foodCartItems = [...state.foodCartItems, item];
             }
-   
-        state.itemsPrice =addDecimals(state.foodCartItems.reduce((acc, item) => acc + item.price * item.
-        quantity, 0));
 
-        //shipping price, order over £100 = free sheipping else £8 sipping)
-        state.shippingPrice = addDecimals(state.itemsPrice > 15 ? 0 : 2);
+            //console.log('foodCartItems after addToFoodCart:', state.foodCartItems);
 
-        // tax price
-        state.taxPrice = addDecimals(Number((0.20 * state.itemsPrice).toFixed(2)))
-
-        // total price 
-        state.totalPrice = (
-            Number(state.itemsPrice) + Number(state.shippingPrice) + Number(state.taxPrice)
-        ).toFixed(2);
-
-        localStorage.setItem('foodCart', JSON.stringify(state));
-
+            return updateCart(state, item);
         },
-        
+        removeFoodFromCart: (state, action) => {
+            state.foodCartItems = state.foodCartItems.filter((x) => x._id !== action.payload);
+            return updateCart(state);
+        }
     }
 })
 export default foodCartSlice.reducer;
 
-export const { addToFoodCart } = foodCartSlice.actions;
+export const { addToFoodCart, removeFoodFromCart } = foodCartSlice.actions;

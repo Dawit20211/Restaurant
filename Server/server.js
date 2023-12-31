@@ -4,11 +4,16 @@ dotenv.config();
 import connectDB from './config/db.js';
 import cors from 'cors';
 import bodyParser from 'body-parser'
+import { notFoundError, errorHandler } from './middleware/errorHandelMiddleware.js';
 import menuRoutes from './routes/menuRoutes.js';
 import userRoutes from './routes/userRoutes.js';
 
 const app = express();
+
 app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 connectDB(); 
 
 const corsOptions ={
@@ -17,10 +22,6 @@ const corsOptions ={
 }
 
 app.use(cors(corsOptions));
-
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 const port = process.env.PORT || 8000;
 
 app.get('/', (req, res) =>{
@@ -28,8 +29,13 @@ app.get('/', (req, res) =>{
     res.send('its running')
 })
 
+
 app.use('/api/menu', menuRoutes);
 app.use('/api/users', userRoutes);
+
+app.use(notFoundError)
+app.use(errorHandler)
+
 
 app.listen(port,() =>{
     console.log(`server running on port: ${port}`)

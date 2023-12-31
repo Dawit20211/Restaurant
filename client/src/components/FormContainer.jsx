@@ -6,17 +6,16 @@ const FormContainer = ({ logo, buttonText, onSubmit, children }) => {
       <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
         <form className="space-y-6 border rounded-lg p-4" onSubmit={onSubmit}>
 
-          {logo && (
-            
+          {logo && (            
             <div className="mb-4 text-center">
               <Link to='/'>
-              <h2 className="text-2xl font-thin leading-9 tracking-tight text-gray-900">{logo}</h2>
+              <h2 className="text-2xl font-thin leading-9 text-orange-500">{logo}</h2>
               </Link>
             </div>
-          )}
-      
-          {children}
+          )}        
 
+          {children}
+          
           <div>
             <button
               type="submit"

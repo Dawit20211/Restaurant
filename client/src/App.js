@@ -8,11 +8,13 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SingleItemPage from './pages/SingleItemPage';
 import FoodCartPage from './pages/FoodCartPage';
+import About from './pages/About';
+
 function App() {
   return (
     <Router>
       <div className="flex flex-col min-h-screen">
-      <Navbar /> 
+      <Navbar/> 
         <div className="flex-grow">
           <Routes>
           <Route path="/" element={<Home/>} />
@@ -20,7 +22,8 @@ function App() {
           <Route path="/login" element={<LoginPage/>} />
           <Route path="/register" element={<RegisterPage/>} />
           <Route path="/menu/:id" element={<SingleItemPage/>} />
-          <Route path='/cart' element={<FoodCartPage/>}/>
+          <Route path='/foodcart' element={<FoodCartPage/>}/>
+          <Route path='/about' element={<About/>}/>
           </Routes>
         </div>
         <Footer />

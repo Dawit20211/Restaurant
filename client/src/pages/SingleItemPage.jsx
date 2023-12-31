@@ -4,7 +4,7 @@ import { useParams, useNavigate} from 'react-router-dom'
 import { useState } from 'react'
 import Rating from '../components/Rating';
 import { useDispatch } from 'react-redux';
-import { addToFoodCart } from '../slices/foodCartSlice';
+import { addToFoodCart} from '../slices/foodCartSlice';
 
 //import Message from '../components/Message';
 
@@ -21,7 +21,7 @@ const SingleItemPage = () => {
 
   const addToFoodCartHandler = () => {
     dispatch(addToFoodCart({...menu, quantity}))
-    navigate('/cart')
+    navigate('/foodcart')
   };
   
   return (

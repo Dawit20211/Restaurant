@@ -211,7 +211,7 @@ const menu = [
   },
   {
     name: 'Chicken Teriyaki',
-    image: 'chicken-teriyaki.jpg',
+    image: 'https://s23209.pcdn.co/wp-content/uploads/2023/05/230125_DD_Grilled-Teriyaki-Chicken_478.jpg',
     description: 'Sautéed chicken with teriyaki sauce for a savory and flavorful hot dish.',
     isAvailable: true,
     rating: 0,
