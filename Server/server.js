@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 dotenv.config();
 import connectDB from './config/db.js';
+import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import bodyParser from 'body-parser'
 import { notFoundError, errorHandler } from './middleware/errorHandelMiddleware.js';
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+app.use(cookieParser());// allow access to req.cookies
 connectDB(); 
 
 const corsOptions ={

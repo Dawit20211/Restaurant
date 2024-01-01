@@ -10,7 +10,6 @@ const validateLogin = [
     .notEmpty().withMessage('Email is required').normalizeEmail(), 
     body('password').notEmpty().withMessage('Password is required'),
   ];
-
 // register validations 
 const validateRegister = [
     body('name').notEmpty().withMessage('Name is required'),
