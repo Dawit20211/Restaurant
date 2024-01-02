@@ -15,7 +15,7 @@ const authUser = asyncHandler( async (req, res) => {
     if(user && (await user.verifyPassword(password))){
 
         createToken(res, user._id);
-
+        
         res.json({
             _id: user._id,
             name: user.name,
@@ -32,7 +32,7 @@ const authUser = asyncHandler( async (req, res) => {
 // route : POST /api/users/register
 // access : Public
 const resgisterUser = asyncHandler(async (req, res) => {
-    const { name, email, phonNumber, password } = req.body;
+    const { name, email, phoneNumber, password } = req.body;
 
     const user = await User.findOne({ email : email})
 
@@ -42,12 +42,12 @@ const resgisterUser = asyncHandler(async (req, res) => {
     }
 
     const newUser = await User.create({
-        name, email, phonNumber, password
+        name, email, phoneNumber, password
     })
 
     if (newUser)
     {
-     generatToken(res, user._id);
+     createToken(res, user._id);
  
      res.status(201).json({
          _id: user._id,
@@ -65,7 +65,7 @@ const resgisterUser = asyncHandler(async (req, res) => {
 // route : POST /api/users/logout
 // access : Private
 const logoutUser = asyncHandler(async (req, res) => {
-    res.cookie('jwt', '', {
+    res.cookie('token', '', {
         httpOnly:true,
         expires: new Date (0)
         });
@@ -113,9 +113,17 @@ const updateUser = asyncHandler(async (req, res)=>{
 // description : Delete a user by id 
 // route : DELETE /api/users/:id
 // access : Private - only Admins
-const deleteUser = asyncHandler(async (req,res) => {
-    res.json('delete user')
-})
+const deleteUserById = asyncHandler(async (req, res) => {
+    const id = req.params.id;
+
+    const user = await User.deleteOne({ _id: id });
+
+    if (user.deletedCount > 0) {
+        res.status(200).send('User is deleted!');
+    } else {
+        res.status(404).send('User not found');
+    }
+});
 
 export {
     authUser,
@@ -125,6 +133,6 @@ export {
     updateUserProfile,
     getUsers,
     getUserById,
-    deleteUser,
+    deleteUserById,
     updateUser,
 }

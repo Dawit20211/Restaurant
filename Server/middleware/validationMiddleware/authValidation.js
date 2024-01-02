@@ -31,14 +31,14 @@ const validate = (req, res, next) => {
 
   if (!errors.isEmpty()) {
 
-    const formattedErrors = errors.array().map(error => {
-      return {
-          type: error.type,
-          path: error.path,
-          location: error.location,
-          msg: error.value === '' ? `${error.param} is required` : error.msg
-      };
-  });
+  //   const formattedErrors = errors.array().map(error => {
+  //     return {
+  //         type: error.type,
+  //         path: error.path,
+  //         location: error.location,
+  //         msg: error.value === '' ? `${error.param} is required` : error.msg
+  //     };
+  // });
       return res.json({ errors: errors.array() });
 
   }
