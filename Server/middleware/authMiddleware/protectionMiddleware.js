@@ -25,16 +25,17 @@ const ensureAuthenticated = asyncHandler(async (req, res, next) => {
     }
 });
 
+// authentication middleware for admins
+// we check if there is a req.user and that they are an admin, if they are we give access 
+const adminOnly = (req, res, next) => {
 
-const adminOnly = asyncHandler(async (req, res, next) => {
-
-    if(req.user && req.user){
+    if(req.user && req.user.isAdmin){
         next();
     }
     else{
         res.status(401);
         throw new Error ('You are not authorised');
-    }
-})
+    }  
+}
 
 export { ensureAuthenticated, adminOnly}

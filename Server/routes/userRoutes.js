@@ -16,10 +16,10 @@ import { adminOnly, ensureAuthenticated } from '../middleware/authMiddleware/pro
 
 router.post('/register', validateRegister, validate, resgisterUser)
 router.post('/login', validateLogin, validate, authUser);
-router.get('/', adminOnly, ensureAuthenticated, getUsers);
+router.get('/', ensureAuthenticated, adminOnly,getUsers);
 router.post('/logout', logoutUser);
 router.route('/profile').get(ensureAuthenticated, getUserPofile).put(ensureAuthenticated, updateUserProfile);
-router.route('/:id').get(adminOnly, ensureAuthenticated,getUserById).delete(adminOnly, ensureAuthenticated,deleteUserById)
-.put(adminOnly, ensureAuthenticated,updateUser);
+router.route('/:id').get(ensureAuthenticated,adminOnly,getUserById).delete(ensureAuthenticated,adminOnly,deleteUserById)
+.put(ensureAuthenticated,adminOnly,updateUser);
 
 export default router;
