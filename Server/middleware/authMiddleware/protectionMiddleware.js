@@ -5,7 +5,7 @@ import asyncHandler from 'express-async-handler';
 // for protected routes
 const ensureAuthenticated = asyncHandler(async (req, res, next) => {
     const token = req.cookies.token;
-
+    
     if (token) {
         try {
             // Verify the token

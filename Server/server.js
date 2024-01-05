@@ -32,7 +32,6 @@ app.use(validate);
 app.use('/api/menu', menuRoutes);
 app.use('/api/users', userRoutes);
 
-
 app.use(notFoundError)
 app.use(errorHandler)
 
