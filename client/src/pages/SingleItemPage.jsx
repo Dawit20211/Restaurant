@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Rating from '../components/Rating';
 import { useDispatch } from 'react-redux';
 import { addToFoodCart} from '../slices/foodCartSlice';
+import Button from '../components/Button';
 
 //import Message from '../components/Message';
 
@@ -26,18 +27,26 @@ const SingleItemPage = () => {
   
   return (
     <div className="container mx-auto my-8">
-      <Link to="/menu" className="text-white bg-black py-2 px-4 mb-4 rounded">
+
+      <div className='p-3 mr-'>
+      <Link to="/menu" className="text-white bg-black py-2 px-4 rounded mt-4">
         Back
       </Link>
+      </div>
 
       {isLoading ? (
         <h2>Loading...</h2>
       ) : error ? (
-        <div> {error.data.message || error.error} </div>
+        <div>{error.data.message || error.error}</div>
       ) : (
-        <div className="flex flex-col md:flex-row gap-4">
+        <div className="flex flex-col md:flex-row gap-28">
           <div className="md:w-1/2">
-            <img src={menu.image} alt={menu.name} className="w-full h-auto object-cover rounded-lg" />
+            <img
+              src={menu.image}
+              alt={menu.name}
+              className="w-full h-auto object-cover rounded-lg mb-4 md:mb-0"
+              style={{ maxHeight: '300px' }} // Set a consistent height
+            />
           </div>
 
           <div className="md:w-1/2">
@@ -74,13 +83,13 @@ const SingleItemPage = () => {
                 </div>
               </div>
             )}
-            <button
+            <Button
               className="bg-black text-white py-2 px-4 rounded hover:bg-gray-800 mt-3"
               disabled={!menu.isAvailable}
               onClick={addToFoodCartHandler}
             >
               Add To Cart
-            </button>
+            </Button>
           </div>
         </div>
       )}

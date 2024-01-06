@@ -20,7 +20,7 @@ const validateRegister = [
     body('phoneNumber').isMobilePhone().withMessage('Invalid phone number'),
     // a couple of password validations to make it as secure as possible when users create one
     body('password')
-      .isLength({ min: 8 }).withMessage('Password must be at least 8 characters')
+      .isLength({ min : 8 }).withMessage('Password must be at least 8 characters')
       .matches(/\d/).withMessage('Password must contain at least one digit')
       .matches(/[a-z]/).withMessage('Password must contain at least one lowercase letter')
       .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter')

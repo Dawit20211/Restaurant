@@ -2,7 +2,6 @@ import User from '../models/userModel.js';
 import asyncHandler from 'express-async-handler';
 import createToken from '../utils/createToken.js'
 
-
 // description : authorize the user and get token
 // route : POST /api/users/login
 // access : Public
@@ -136,7 +135,6 @@ const getUsers = asyncHandler(async (req,res) => {
         throw new Error ('no users was found')
     }
 })
-
 
 // description : Get a single user by their id 
 // route : GET /api/users/:id

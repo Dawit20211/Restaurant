@@ -4,10 +4,9 @@ import { useLoginMutation } from '../slices/userApiSlice'
 import { loginUser } from '../slices/userSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Toaster, toast } from 'sonner'
 
 const LoginPage = () => {
-
-
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ const LoginPage = () => {
     }
   }, [userDetails, targetPage, navigate])
 
-
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -36,11 +34,16 @@ const LoginPage = () => {
       dispatch(loginUser({...response, }))
       navigate(targetPage);
     } catch (error) {
-      console.log(error); // place holder for toast messages for later 
+      toast.error(error?.data?.message || error.error,{
+        position: 'top-center'
+        
+      })
     }
   };
 
   return (
+    <div>
+    <Toaster/>
     <FormContainer logo= "SuFlavours" buttonText="Sign In" onSubmit={handleLogin}>
       <div>
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -49,7 +52,6 @@ const LoginPage = () => {
         <div className="mt-2">
           <input
             id="email"
-            name="email"
             type="email"
             value={email}
             autoComplete="email"
@@ -67,7 +69,6 @@ const LoginPage = () => {
         <div className="mt-2">
           <input
             id="password"
-            name="password"
             type="password"
             value={password}
             autoComplete="current-password"
@@ -78,7 +79,6 @@ const LoginPage = () => {
         </div>
       </div>
 
-
       <div className="text-sm">
         <Link to= "/resetpassword" className="font-semibold text-amber-700 hover:text-orange-500">
           Forgot password?
@@ -88,12 +88,12 @@ const LoginPage = () => {
 
       <p className="mt-10 text-center text-sm text-black-500">
         New User? {" "}
-        <Link to="/register" className="font-semibold leading-6 text-amber-700 hover:text-orange-500">
+        <Link to={targetPage ?  `/register?targetPage=${targetPage}` : '/register'} className="font-semibold leading-6 text-amber-700 hover:text-orange-500">
         Sign Up
         </Link>
-
       </p>
     </FormContainer>
+    </div>
   );
 };
 
