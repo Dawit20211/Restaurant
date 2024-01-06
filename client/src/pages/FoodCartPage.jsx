@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaTrash } from "react-icons/fa";
 import { addToFoodCart, removeFoodFromCart } from '../slices/foodCartSlice';
+import Button from "../components/Button";
 
 const FoodCartPage = () => {
   const navigate = useNavigate();
@@ -94,14 +95,14 @@ const FoodCartPage = () => {
           </div>
 
           <div>
-            <button
+            <Button
               type="button"
               className="w-full bg-black text-white p-2 rounded"
               disabled={foodCartItems.length === 0}
               onClick={checkoutHandler}
             >
               Proceed To Checkout
-            </button>
+            </Button>
           </div>
         </div>
       </div>

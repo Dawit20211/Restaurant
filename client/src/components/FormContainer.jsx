@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import Button from './Button';
 
 const FormContainer = ({ logo, buttonText, onSubmit, children }) => {
   return (
@@ -17,12 +18,12 @@ const FormContainer = ({ logo, buttonText, onSubmit, children }) => {
           {children}
           
           <div>
-            <button
+            <Button
               type="submit"
               className="flex w-full justify-center rounded-md bg-black px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-orange-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-orange-500"
             >
               {buttonText}
-            </button>
+            </Button>
           </div>
         </form>
       </div>

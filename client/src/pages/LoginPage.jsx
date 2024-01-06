@@ -1,12 +1,43 @@
 import FormContainer from '../components/FormContainer';
-import { Link } from 'react-router-dom';
-import { useLoginMutaion } from '../slices/useApiSlice';
-import { login } from '../slices/userSlice';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLoginMutation } from '../slices/userApiSlice'
+import { loginUser } from '../slices/userSlice';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 const LoginPage = () => {
 
+
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState('');
+  const [password,  setPassword] = useState('');
+
+  const [login, {loading}] = useLoginMutation();
+  const {userDetails} = useSelector((state) => state.user)
+
+  const { search } = useLocation();
+  const targetPage = new URLSearchParams(search).get('targetPage') || '/menu';
+
+  useEffect(() =>{
+    if(userDetails){
+      navigate(targetPage)
+    }
+  }, [userDetails, targetPage, navigate])
+
+
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    try {
+      const response = await login({email, password}).unwrap();
+      dispatch(loginUser({...response, }))
+      navigate(targetPage);
+    } catch (error) {
+      console.log(error); // place holder for toast messages for later 
+    }
   };
 
   return (
@@ -20,8 +51,9 @@ const LoginPage = () => {
             id="email"
             name="email"
             type="email"
+            value={email}
             autoComplete="email"
-            onChange={(e) => (e.target.value)}
+            onChange={(e) => setEmail(e.target.value)}
             required
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
           />
@@ -37,8 +69,9 @@ const LoginPage = () => {
             id="password"
             name="password"
             type="password"
+            value={password}
             autoComplete="current-password"
-            onChange={(e) => (e.target.value)}
+            onChange={(e) => setPassword(e.target.value)}
             required
             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
           />

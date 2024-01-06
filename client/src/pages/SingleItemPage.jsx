@@ -26,7 +26,7 @@ const SingleItemPage = () => {
   
   return (
     <div className="container mx-auto my-8">
-      <Link to="/menu" className="text-white bg-black py-2 px-4 mb-4 inline-block">
+      <Link to="/menu" className="text-white bg-black py-2 px-4 mb-4 rounded">
         Back
       </Link>
 
