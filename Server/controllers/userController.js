@@ -49,7 +49,7 @@ const resgisterUser = asyncHandler(async (req, res) => {
     {
      createToken(res, user._id);
  
-     res.status(201).json({
+     res.status(200).json({
          _id: user._id,
          name:user.name,
          email:user.email,
@@ -76,21 +76,65 @@ const logoutUser = asyncHandler(async (req, res) => {
 // route : GET /api/users/profile
 // access : Private
 const getUserPofile = asyncHandler(async (req, res) => {
-    res.json('user profile')
+    const user = await User.findById((req.user._id));
+
+    if(user){
+        res.status(200).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            isAdmin: user.isAdmin,
+        })
+    }else{
+        res.status(404);
+        throw new Error('could not find user')
+    }
 })
 
 // description : update the user profile 
 // route : PUT /api/users/profile
 // access : Private
 const updateUserProfile = asyncHandler (async (req,res) => {
-    res.json('update user profile')
+    const user = await User.findById((req.user._id))    
+
+    if(user){
+        user.name = req.body.name || user.name;
+        user.email = req.body.email || user.email;
+        user.phoneNumber = req.body.phoneNumber || user.phoneNumber;
+
+        if(req.body.password){
+            user.password = req.body.password;
+        }
+
+        const latestUserInfo = await user.save();
+
+        res.status(200).json({
+            _id: latestUserInfo._id,
+            name: latestUserInfo.name,
+            email: latestUserInfo.email,
+            phoneNumber: latestUserInfo.phoneNumber,
+            isAdmin: latestUserInfo.isAdmin,
+        })
+    }else{
+        res.status(404);
+        throw new Error ('could not find user');
+    }
+
 })
 
 // description : Get all users 
 // route : GET /api/users
 // access : Private - only for Admins
 const getUsers = asyncHandler(async (req,res) => {
-    res.json('get all users')
+    const allUsers = await User.find()
+
+    if(allUsers){
+        res.status(200).json(allUsers)
+    }else{
+        res.status(400)
+        throw new Error ('no users was found')
+    }
 })
 
 

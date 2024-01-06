@@ -9,7 +9,9 @@ const validateLogin = [
     body('email').isEmail().withMessage('Invalid email format')
     .notEmpty().withMessage('Email is required').normalizeEmail(), 
     body('password').notEmpty().withMessage('Password is required'),
-  ];
+];
+
+
 // register validations 
 const validateRegister = [
     body('name').notEmpty().withMessage('Name is required'),
@@ -23,7 +25,7 @@ const validateRegister = [
       .matches(/[a-z]/).withMessage('Password must contain at least one lowercase letter')
       .matches(/[A-Z]/).withMessage('Password must contain at least one uppercase letter')
       .matches(/[@$!%*?&]/).withMessage('Password must contain at least one special character (@, $, !, %, *, ?, &)'),
-  ];
+];
   
 //middleware to check for validation errors 
 const validate = (req, res, next) => {
@@ -39,7 +41,7 @@ const validate = (req, res, next) => {
   //         msg: error.value === '' ? `${error.param} is required` : error.msg
   //     };
   // });
-      return res.json({ errors: errors.array() });
+  return res.json({ errors: errors.array() });
 
   }
   next();
