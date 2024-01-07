@@ -42,8 +42,6 @@ const LoginPage = () => {
   };
 
   return (
-    <div>
-    <Toaster/>
     <FormContainer logo= "SuFlavours" buttonText="Sign In" onSubmit={handleLogin}>
       <div>
         <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
@@ -93,7 +91,6 @@ const LoginPage = () => {
         </Link>
       </p>
     </FormContainer>
-    </div>
   );
 };
 

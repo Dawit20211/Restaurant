@@ -41,7 +41,7 @@ const validate = (req, res, next) => {
   //         msg: error.value === '' ? `${error.param} is required` : error.msg
   //     };
   // });
-  return res.json({ errors: errors.array() });
+  return res.status(400).json({ errors: errors.array() });
 
   }
   next();

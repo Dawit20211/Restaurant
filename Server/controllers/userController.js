@@ -37,7 +37,7 @@ const resgisterUser = asyncHandler(async (req, res) => {
 
     if(user){
         res.status(404);
-        throw new Error ('User is already registered, try login in.')
+        throw new Error ('User is already registered, try login.')
     }
 
     const newUser = await User.create({
@@ -46,16 +46,16 @@ const resgisterUser = asyncHandler(async (req, res) => {
 
     if (newUser)
     {
-     createToken(res, user._id);
+     createToken(res, newUser._id);
  
      res.status(200).json({
-         _id: user._id,
-         name:user.name,
-         email:user.email,
-         isAdmin:user.isAdmin,
+         _id: newUser._id,
+         name:newUser.name,
+         email:newUser.email,
+         isAdmin:newUser.isAdmin,
      })
     }else{
-     res.status(400);
+     res.status(500);
      throw new Error('Provide valid data')
     }        
 })
