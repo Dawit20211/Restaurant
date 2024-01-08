@@ -176,7 +176,7 @@ const RegisterPage = () => {
 
       <p className="mt-10 text-center text-sm text-black-500">
         Already have an account?{' '}
-        <Link to={targetPage ? `/login?targetPage=${targetPage}`: '/login'} className="font-semibold leading-6 text-amber-700 hover:text-orange-500">
+        <Link to={targetPage ? `/login?targetPage=${targetPage}`: '/login'}className="font-semibold leading-6 text-amber-700 hover:text-orange-500">
           Sign In
         </Link>
       </p>

@@ -21,7 +21,7 @@ const FoodCartPage = () => {
   };
 
   const checkoutHandler = () => {
-    navigate('/login?redirect=/shipping');
+    navigate('/login?targetPage=/delivery');
   };
 
   return (

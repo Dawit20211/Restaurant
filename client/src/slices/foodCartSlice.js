@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../Utils/FoodCartUtil';
 
 const initialState = localStorage.getItem('foodCart') ? 
-JSON.parse(localStorage.getItem('foodCart')) : {foodCartItems : []}
+JSON.parse(localStorage.getItem('foodCart')) : {foodCartItems : [], deliveryAddress: {}, }
 
 const foodCartSlice = createSlice({
     name: 'foodCart',
@@ -27,9 +27,13 @@ const foodCartSlice = createSlice({
         removeFoodFromCart: (state, action) => {
             state.foodCartItems = state.foodCartItems.filter((x) => x._id !== action.payload);
             return updateCart(state);
+        },
+        saveDeliveryAddress: (state, action) =>{
+            state.deliveryAddress = action.payload;
+            return updateCart(state)
         }
     }
 })
 export default foodCartSlice.reducer;
 
-export const { addToFoodCart, removeFoodFromCart } = foodCartSlice.actions;
+export const { addToFoodCart, removeFoodFromCart, saveDeliveryAddress } = foodCartSlice.actions;

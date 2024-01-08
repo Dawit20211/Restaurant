@@ -13,7 +13,7 @@ const orderSchema = mongoose.Schema({
             qty:{type: Number, required: true},
             image:{type: String, required: true},
             price:{type: Number, required: true},
-            menueIem:{
+            menuIem:{
                 type: mongoose.Schema.Types.ObjectId,
                 required: true,
                 ref: 'Menu'
@@ -23,9 +23,8 @@ const orderSchema = mongoose.Schema({
     deliveryAddress:{
         address: { type: String, required: true },
         city: { type: String, required: true },
-        postalCode: { type: String, required: true },
+        postCode: { type: String, required: true },
         phoneNumber: { type: Number, required: true },
-        country: { type: String, required: true },
     },
     paymentMethod:{
         type: String,

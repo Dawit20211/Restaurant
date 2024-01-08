@@ -9,6 +9,8 @@ import RegisterPage from './pages/RegisterPage';
 import SingleItemPage from './pages/SingleItemPage';
 import FoodCartPage from './pages/FoodCartPage';
 import About from './pages/About';
+import DeliveryPage from './pages/DeliveryPage';
+import PrivateRoutes from './components/PrivateRoutes';
 
 function App() {
   return (
@@ -24,6 +26,10 @@ function App() {
           <Route path="/menu/:id" element={<SingleItemPage/>} />
           <Route path='/foodcart' element={<FoodCartPage/>}/>
           <Route path='/about' element={<About/>}/>
+
+          <Route path='' element={<PrivateRoutes/>}>
+          <Route path="/delivery" element={<DeliveryPage />} />    
+          </Route>
           </Routes>
         </div>
         <Footer />
