@@ -4,7 +4,8 @@ import asyncHandler from 'express-async-handler';
 
 // for protected routes
 const ensureAuthenticated = asyncHandler(async (req, res, next) => {
-    const token = req.cookies.token;
+     
+    const token = req.cookies.access_token;
     
     if (token) {
         try {
@@ -13,8 +14,8 @@ const ensureAuthenticated = asyncHandler(async (req, res, next) => {
             
             // Attach the user to the request object (excluding the password)
             req.user = await User.findById(decodedToken.userId).select('-password');
-            
             next();
+            
         } catch (error) {
             res.status(401);
             throw new Error('Verification failed');

@@ -3,10 +3,10 @@ import { apiSlice } from "./apiSlice";
 
 export const menusApiSlice = apiSlice.injectEndpoints({
     endpoints: (builder) => ({
-        getMneus: builder.query({
+        getMenus: builder.query({
             query:  () => ({
                 url: MENU_URL,
-                method: "GET"
+                method: 'GET'
             }),
             keepUnusedDataFor: 5
         }),
@@ -23,4 +23,4 @@ export const menusApiSlice = apiSlice.injectEndpoints({
 })
 
 
-export const { useGetMneusQuery, useGetMenuQuery } = menusApiSlice;
+export const { useGetMenusQuery, useGetMenuQuery } = menusApiSlice;

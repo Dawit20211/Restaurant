@@ -1,12 +1,12 @@
 import Menu from '../components/Menu';
 import Message from '../components/Message';
 import { useState } from 'react';
-import { useGetMneusQuery } from '../slices/menusApiSlice';
+import { useGetMenusQuery } from '../slices/menusApiSlice';
 
 
 const MenuPage = () => {
   
-  const { data : menu, isLoading, error} = useGetMneusQuery();
+  const { data : menu, isLoading, error} = useGetMenusQuery();
   return (
     <>
     {isLoading  ? (<h2>Loading...</h2>) : error ? ( <div> {error.data.message || error.error} </div>)  : (<>

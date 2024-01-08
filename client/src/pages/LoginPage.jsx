@@ -1,20 +1,21 @@
 import FormContainer from '../components/FormContainer';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useLoginMutation } from '../slices/userApiSlice'
+import { useLoginMutation } from '../slices/usersApiSlice'
 import { loginUser } from '../slices/userSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner'
 
 const LoginPage = () => {
-
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password,  setPassword] = useState('');
 
-  const [login, {loading}] = useLoginMutation();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [login] = useLoginMutation();
+
   const {userDetails} = useSelector((state) => state.user)
 
   const { search } = useLocation();
@@ -24,22 +25,23 @@ const LoginPage = () => {
     if(userDetails){
       navigate(targetPage)
     }
-  }, [userDetails, targetPage, navigate])
+  }, [navigate, targetPage, userDetails])
 
   const handleLogin = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await login({email, password}).unwrap();
       dispatch(loginUser({...response, }))
+     // console.log('Document Cookies:', document.cookie);
       navigate(targetPage);
-    } catch (error) {
-      toast.error(error?.data?.message || error.error,{
+    } catch (err) {
+      toast.error(err?.data?.message || err.error, {
         position: 'top-center'
-        
       })
     }
   };
+  
 
   return (
     <FormContainer logo= "SuFlavours" buttonText="Sign In" onSubmit={handleLogin}>

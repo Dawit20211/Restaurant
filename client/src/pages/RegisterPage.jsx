@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import FormContainer from '../components/FormContainer';
 import { useForm, Controller } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useRegisterUserMutation } from '../slices/userApiSlice';
+import { useRegisterUserMutation } from '../slices/usersApiSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'sonner';
 import { loginUser } from '../slices/userSlice';
@@ -176,7 +176,7 @@ const RegisterPage = () => {
 
       <p className="mt-10 text-center text-sm text-black-500">
         Already have an account?{' '}
-        <Link to="/login" className="font-semibold leading-6 text-amber-700 hover:text-orange-500">
+        <Link to={targetPage ? `/login?targetPage=${targetPage}`: '/login'} className="font-semibold leading-6 text-amber-700 hover:text-orange-500">
           Sign In
         </Link>
       </p>

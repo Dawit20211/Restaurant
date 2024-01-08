@@ -12,13 +12,14 @@ const authUser = asyncHandler( async (req, res) => {
     const user = await User.findOne({ email: email })
 
     if(user && (await user.verifyPassword(password))){
-
+        
         createToken(res, user._id);
         
-        res.json({
+        res.status(200).json({
             _id: user._id,
             name: user.name,
             email: user.email,
+            phoneNumber: user.phoneNumber,
             isAdmin: user.isAdmin,
         })
     }else {
@@ -64,7 +65,7 @@ const resgisterUser = asyncHandler(async (req, res) => {
 // route : POST /api/users/logout
 // access : Private
 const logoutUser = asyncHandler(async (req, res) => {
-    res.cookie('token', '', {
+    res.cookie('access_token', '', {
         httpOnly:true,
         expires: new Date (0)
         });
