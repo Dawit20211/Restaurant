@@ -1,3 +1,4 @@
+import { get } from 'mongoose';
 import Order from '../models/orderModel.js'
 import asyncHandler from 'express-async-handler';
 
@@ -5,22 +6,66 @@ import asyncHandler from 'express-async-handler';
 // route : POST /api/orders
 // access : Private
 const createOrders = asyncHandler(async(req, res) =>{
-  res.send('create order')
+    const{
+        orderItems,
+        paymentMethod,
+        deliveryAddress,
+        deliveryPrice,
+        itemsPrice,
+        taxPrice,
+        totalPrice,
+    } = req.body
+
+    if (!orderItems || orderItems.length === 0){
+      res.status(400);
+      throw new Error('No orders');
+    }else{
+        const order = new Order({
+            orderItems: orderItems.map((a)=> ({ ...a, menu: a._id, _id: undefined})),
+            user: req.user._id,
+            deliveryAddress,
+            itemsPrice,
+            paymentMethod,
+            deliveryPrice,
+            taxPrice,
+            totalPrice  
+        })
+
+        const createTheOrder = await order.save();
+
+        res.status(200).json(createTheOrder)
+
+    }
+
 })
 
 
 // description : gets the users orders
 // route : GET /api/orders/myorders
 // access : Private
-const getMyOrder = asyncHandler(async(req, res)=>{
-    res.send('my orders')
-})
+const getMyOrder = asyncHandler(async(req, res) => {
+    const myOrders = await Order.find({ user: req.user._id });
+
+    if (myOrders && myOrders.length > 0) {
+        res.status(200).json(myOrders);
+    } else {
+        res.status(404);
+        throw new Error('No orders were found');
+    }
+});
 
 // description : gets an order by id
 // route : GET /api/orders/:id
 // access : Private
 const getOrderById = asyncHandler(async(req, res)=>{
-    res.send('orders by id')
+     const orderById = await Order.findById(req.params.id).populate('user', 'name email phonNumber')
+
+     if(orderById){
+        res.status(200).json(orderById)
+     }else{
+        res.status(404);
+        throw new Error ('order does not exist')
+    }
 })
 
 // description : updating order to be delivered
