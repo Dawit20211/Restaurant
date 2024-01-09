@@ -5,8 +5,10 @@ import connectDB from './config/db.js';
 import cookieParser from 'cookie-parser';
 import { notFoundError, errorHandler } from './middleware/errorHandelMiddleware.js';
 import { validate } from './middleware/validationMiddleware/authValidation.js';
+import orderRoutes from './routes/orderRoutes.js';
 import menuRoutes from './routes/menuRoutes.js';
 import userRoutes from './routes/userRoutes.js';
+
 dotenv.config();
 const app = express();
 connectDB(); 
@@ -31,8 +33,11 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(validate);
 
+app.use('/api/orders', orderRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/users', userRoutes);
+
+
 
 app.use(notFoundError)
 app.use(errorHandler)

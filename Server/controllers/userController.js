@@ -31,7 +31,7 @@ const authUser = asyncHandler( async (req, res) => {
 // description : Register User
 // route : POST /api/users/register
 // access : Public
-const resgisterUser = asyncHandler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
     const { name, email, phoneNumber, password } = req.body;
 
     const user = await User.findOne({ email : email})
@@ -69,13 +69,13 @@ const logoutUser = asyncHandler(async (req, res) => {
         httpOnly:true,
         expires: new Date (0)
         });
-        res.status(200).json({meesage: 'Logged out!'})
+        res.status(200).json({message: 'Logged out!'})
 })
 
 // description : Get the user profile
 // route : GET /api/users/profile
 // access : Private
-const getUserPofile = asyncHandler(async (req, res) => {
+const getUserProfile = asyncHandler(async (req, res) => {
     const user = await User.findById((req.user._id));
 
     if(user){
@@ -179,9 +179,9 @@ const deleteUserById = asyncHandler(async (req, res) => {
 
 export {
     authUser,
-    resgisterUser,
+    registerUser,
     logoutUser,
-    getUserPofile,
+    getUserProfile,
     updateUserProfile,
     getUsers,
     getUserById,

@@ -8,9 +8,10 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import SingleItemPage from './pages/SingleItemPage';
 import FoodCartPage from './pages/FoodCartPage';
-import About from './pages/About';
+import About from './pages/AboutPage';
 import DeliveryPage from './pages/DeliveryPage';
 import PrivateRoutes from './components/PrivateRoutes';
+import PaymentPage from './pages/PaymentPage';
 
 function App() {
   return (
@@ -28,7 +29,9 @@ function App() {
           <Route path='/about' element={<About/>}/>
 
           <Route path='' element={<PrivateRoutes/>}>
-          <Route path="/delivery" element={<DeliveryPage />} />    
+          <Route path="/delivery" element={<DeliveryPage />} />   
+          <Route path="/payment" element={<PaymentPage/>} />    
+ 
           </Route>
           </Routes>
         </div>
