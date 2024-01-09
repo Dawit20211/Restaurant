@@ -11,7 +11,9 @@ import FoodCartPage from './pages/FoodCartPage';
 import About from './pages/AboutPage';
 import DeliveryPage from './pages/DeliveryPage';
 import PrivateRoutes from './components/PrivateRoutes';
+import CheckoutPage from './pages/CheckoutPage';
 import PaymentPage from './pages/PaymentPage';
+import OrderPage from './pages/OrderPage';
 
 function App() {
   return (
@@ -28,10 +30,13 @@ function App() {
           <Route path='/foodcart' element={<FoodCartPage/>}/>
           <Route path='/about' element={<About/>}/>
 
+           {/* these routes below are the protected routes */}
           <Route path='' element={<PrivateRoutes/>}>
           <Route path="/delivery" element={<DeliveryPage />} />   
           <Route path="/payment" element={<PaymentPage/>} />    
- 
+          <Route path="/checkout" element={<CheckoutPage/>} />    
+          <Route path="/order:id" element={<CheckoutPage/>} />    
+
           </Route>
           </Routes>
         </div>

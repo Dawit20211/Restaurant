@@ -25,8 +25,8 @@ const FoodCartPage = () => {
   };
 
   return (
-    <div className="flex">
-      <div className="w-8/12">
+    <div className="flex p-8">
+      <div className="w-8/12"> 
         {foodCartItems.length === 0 ? (
           <p>
             Your Basket is empty <Link to='/menu' className="rounded text-orange-400">Go Back To Menu</Link>
@@ -34,7 +34,7 @@ const FoodCartPage = () => {
         ) : (
           <div>
             {foodCartItems.map((item) => (
-              <div key={item._id} className="border-t border-b mb-4 p-4">
+              <div key={item._id} className="border-t border-b mb-2 p-4">
                 <div className="flex items-center">
                   <div className="w-1/6">
                     <img
@@ -85,7 +85,7 @@ const FoodCartPage = () => {
         )}
       </div>
 
-      <div className="w-4/12">
+      <div className="w-4/12 ml-6">
         <div className="bg-white p-4 rounded shadow">
           <div className="mb-4">
             <h2 className="text-lg">
@@ -97,11 +97,11 @@ const FoodCartPage = () => {
           <div>
             <Button
               type="button"
-              className="w-full bg-black text-white p-2 rounded"
+             // className="w-full bg-black text-white p-2 rounded"
               disabled={foodCartItems.length === 0}
               onClick={checkoutHandler}
             >
-              Proceed To Checkout
+              Continue To Checkout
             </Button>
           </div>
         </div>

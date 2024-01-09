@@ -2,7 +2,8 @@ import { createSlice } from '@reduxjs/toolkit';
 import { updateCart } from '../Utils/FoodCartUtil';
 
 const initialState = localStorage.getItem('foodCart') ? 
-JSON.parse(localStorage.getItem('foodCart')) : {foodCartItems : [], deliveryAddress: {}, paymentMethod: 'Strip'}
+JSON.parse(localStorage.getItem('foodCart')) : 
+{foodCartItems : [], deliveryAddress: {}, paymentMethod: 'Strip'}
 
 const foodCartSlice = createSlice({
     name: 'foodCart',
@@ -35,9 +36,18 @@ const foodCartSlice = createSlice({
         savePaymentMethod: (state, action) =>{
             state.paymentMethod = action.payload;
             localStorage.setItem('foodCart', JSON.stringify(state))
+        },
+        clearFoodCartItems: (state, action) =>{
+            state.foodCartItems = [];
+            return updateCart(state)
         }
     }
 })
 export default foodCartSlice.reducer;
 
-export const { addToFoodCart, removeFoodFromCart, saveDeliveryAddress, savePaymentMethod } = foodCartSlice.actions;
+export const { 
+    addToFoodCart, 
+    removeFoodFromCart, 
+    saveDeliveryAddress, 
+    savePaymentMethod, 
+    clearFoodCartItems} = foodCartSlice.actions;

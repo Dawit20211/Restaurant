@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { saveDeliveryAddress } from '../slices/foodCartSlice';
 import FormContainer from '../components/FormContainer';
-import CheckoutFlow from '../components/CheckoutFlow';
 
 const DeliveryPage = () => {
 

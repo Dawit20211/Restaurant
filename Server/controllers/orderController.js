@@ -16,19 +16,19 @@ const createOrders = asyncHandler(async(req, res) =>{
         totalPrice,
     } = req.body
 
-    if (!orderItems || orderItems.length === 0){
+    if (orderItems && orderItems.length === 0){
       res.status(400);
       throw new Error('No orders');
     }else{
         const order = new Order({
-            orderItems: orderItems.map((a)=> ({ ...a, menu: a._id, _id: undefined})),
+            orderItems: orderItems.map((a) => ({ ...a, menu: a._id, _id: undefined})),
             user: req.user._id,
             deliveryAddress,
             itemsPrice,
             paymentMethod,
             deliveryPrice,
             taxPrice,
-            totalPrice  
+            totalPrice,  
         })
 
         const createTheOrder = await order.save();

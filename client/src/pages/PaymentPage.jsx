@@ -13,10 +13,10 @@ const PaymentPage = () => {
   const foodCart = useSelector((state) => state.foodCart);
   const { deliveryAddress } = foodCart;
 
-  const handleSubmit = (e) => {
+  const handelSubmit = (e) => {
     e.preventDefault();
     dispatch(savePaymentMethod(paymentMethod));
-    navigate("/placeorder");
+    navigate("/checkout");
   };
 
   useEffect(() => {
@@ -26,7 +26,7 @@ const PaymentPage = () => {
   }, [deliveryAddress, navigate]);
 
   return (
-    <FormContainer logo="" buttonText="Continue" onSubmit={handleSubmit}>
+    <FormContainer logo="" buttonText="Continue" onSubmit={handelSubmit}>
       <div className="mb-4">
         <div className="text-3xl font-thin text-center p-4">Payment Method</div>
         <label className="block text-gray-700 text-sm font-bold mb-2">

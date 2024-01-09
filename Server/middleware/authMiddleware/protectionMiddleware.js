@@ -14,9 +14,14 @@ const ensureAuthenticated = asyncHandler(async (req, res, next) => {
             
             // Attach the user to the request object (excluding the password)
             req.user = await User.findById(decodedToken.userId).select('-password');
+            
+           // console.log('Decoded Token:', decodedToken);
+
             next();
             
         } catch (error) {
+            //console.error('Authentication Error:', error);
+
             res.status(401);
             throw new Error('Verification failed');
         }
