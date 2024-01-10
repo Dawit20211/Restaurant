@@ -102,19 +102,19 @@ return (
             <h2 className="text-2xl font-bold mb-4">Order Summary</h2>
             <div className="flex justify-between mb-2">
               <span>Items</span>
-              <span>${foodCart.itemsPrice}</span>
+              <span>£{foodCart.itemsPrice}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span> Delivery Fee </span>
-              <span>${foodCart.deliveryPrice}</span>
+              <span>£{foodCart.deliveryPrice}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span> Service Charge </span>
-              <span>${foodCart.taxPrice}</span>
+              <span>£{foodCart.taxPrice}</span>
             </div>
             <div className="flex justify-between mb-2">
               <span>Total</span>
-              <span>${foodCart.totalPrice}</span>
+              <span>£{foodCart.totalPrice}</span>
             </div>
             {error &&  error.data.message }
           </div>

@@ -35,8 +35,8 @@ function App() {
           <Route path="/delivery" element={<DeliveryPage />} />   
           <Route path="/payment" element={<PaymentPage/>} />    
           <Route path="/checkout" element={<CheckoutPage/>} />    
-          <Route path="/order:id" element={<CheckoutPage/>} />    
-
+          <Route path="/order/:id" element={<OrderPage />} />
+          
           </Route>
           </Routes>
         </div>
