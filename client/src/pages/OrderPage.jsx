@@ -5,14 +5,14 @@ import {
 import { useEffect, useState } from 'react'; 
 import { toast } from 'sonner'
 import { useSelector } from 'react-redux';
-import { usePayForOrderMutation } from '../slices/ordersApiSlice';
+//import { usePayForOrderMutation } from '../slices/ordersApiSlice';
 import StripeCheckout from 'react-stripe-checkout';
 import { useGetSecretIdQuery } from '../slices/ordersApiSlice';
 
   const OrderPage = () => {
     const [paymentStatus, setPaymentStatus] = useState(null);
 
-    const [payForOrder] = usePayForOrderMutation();
+   //const [payForOrder] = usePayForOrderMutation();
     
     // const { data: stripe, isLoading: loadingStripe, error: errorStripe} = useGetSecretIdQuery();
 
@@ -22,7 +22,7 @@ import { useGetSecretIdQuery } from '../slices/ordersApiSlice';
     
     const { data: order, isLoading, error, refetch } = useGetOrderByIdQuery(id);
 
-    // // Stripe onApprove function
+    // Stripe onApprove function
     // const onApprove = async (data, actions) => {
     //   return actions.order.capture().then(async function (details) {
     //     try {
@@ -36,27 +36,29 @@ import { useGetSecretIdQuery } from '../slices/ordersApiSlice';
     //     }
     //   });
     // };
-    
-    const payNow = async (token) => {
-      try {
-        // Make an API call to initiate the payment process
-        const response = await payForOrder({
-          orderId: id,
-          details: { token },
-        });
-    
-        if (response.data) {
-          setPaymentStatus('success');
-          await refetch(); // Wait for the refetch to complete
-          toast.success('Order paid successfully');
-        }
-      } catch (error) {
-        setPaymentStatus('failed');
-        toast.error(error?.data?.message || 'Payment failed');
-      }
-    };
-    
 
+    
+    // const payNow = async (token, token2) => {
+    //   try {
+    //     const response = await payForOrder({
+    //       orderId: id,
+    //       details: { token },         
+    //     });
+
+    
+    //     if (response.data) {
+    //       setPaymentStatus('success');
+    //       await refetch(); // Wait for the refetch to complete
+    //       toast.success('Order paid successfully');
+    //     }
+    //   } catch (error) {
+    //     setPaymentStatus('failed');
+    //     toast.error(error?.data?.message || 'Payment failed');
+    //   }
+    // };
+
+   // && stripe?.secretKey 
+ 
   return isLoading ? (
     <div>Loading...</div>
     ) : error ? (
@@ -134,7 +136,7 @@ import { useGetSecretIdQuery } from '../slices/ordersApiSlice';
             </div>
 
             <div className="flex justify-between mb-2">
-              <span> Delivery Fee </span>
+              <span>Shipping</span>
               <span>£{order.deliveryPrice}</span>
             </div>
 
@@ -149,17 +151,19 @@ import { useGetSecretIdQuery } from '../slices/ordersApiSlice';
             </div>
 
             <div className="">
-            {/* {paymentStatus !== 'success'&& ( */}
-          {/* //<StripeCheckout */}
-          {/* //   stripeKey={publishableKey}
-          //   label="Pay Now"
-          //   name="Pay With Credit Card"
-          //   paymentMethod= 'card'
-          //   amount={Math.round(order.totalPrice * 100)}
-          //   description={`Your total is £${order.totalPrice}`}
-          //   token={payNow} 
-          // />
-           //)} */}
+            {/* {paymentStatus !== 'success'&& (
+          <StripeCheckout
+            stripeKey={publishableKey}
+            label="Pay Now"
+            name="Pay With Credit Card"
+            paymentMethod='card'
+            amount={Math.round(order.totalPrice * 100)}
+            description={`Your total is £${order.totalPrice}`}
+            token={payNow} 
+            token2={onApprove}
+          /> */}
+           {/* )} */}
+          {/* {loadingStripe && <div>Loading Stripe...</div>} */}
         </div>
           </div>
         </div>

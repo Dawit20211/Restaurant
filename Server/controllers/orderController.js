@@ -76,11 +76,11 @@ const updatingOrderToDelivered = asyncHandler(async(req, res)=>{
 // description : updating order to paid 
 // route : PUT /api/orders/:id/paid
 // access : Private 
-const updatingOrderToPaid = asyncHandler(async (req, res) => {
+const updatingOrderToPaid = asyncHandler(async(req, res)=>{
     const orderId = req.params.id;
 
-   // const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY);
-  
+    const stripeClient = new stripe(process.env.STRIPE_SECRET_KEY);
+
     // Retrieve the order from the database
     const order = await Order.findById(orderId);
   
@@ -88,49 +88,36 @@ const updatingOrderToPaid = asyncHandler(async (req, res) => {
       res.status(404).json('Order not found');
       return;
     }
-  
-    try {
-    //   // Create a Checkout Session with Stripe
-    //   const lineItems = order.orderItems.map((item) => ({
-    //     price_data: {
-    //       currency: 'GBP',
-    //       product_data: {
-    //         images: [item.image], 
-    //         description: item.name, 
-    //       },
-    //       unit_amount: Math.round(item.price * 100), 
-    //     },
-    //     quantity: item.quantity, 
-    //   }));
-  
-    //   const session = await stripeClient.checkout.sessions.create({
-    //     payment_method_types: ['card'],
-    //     line_items: lineItems,
-    //     mode: 'payment',
+   try {
+    //   // Create a payment intent with Stripe
+    //   const paymentIntent = await stripeClient.paymentIntents.create({
+    //     amount: order.totalPrice * 100, 
+    //     currency: 'GBP',
+    //     payment_method: ['card']
     //   });
-  
-      // Update the order with payment details
-    //   order.paymentResult = {
-    //     id: session.id,
-    //     status: session.payment_status,
-    //     updateTime: new Date(session.created * 1000),
-    //     emailAddress: session.emailAddress,
-    //     paymentMethod: session.paymentMethod,
-    //   };
-  
-      // Update order status to paid
-      order.isPaid = true;
-      order.paidAt = new Date();
-      await order.save();
-  
+
+    // // Update the order with payment details
+    // order.paymentResult = {
+    //     id: paymentIntent.id,
+    //     status: paymentIntent.status,
+    //     updateTime: new Date(paymentIntent.created * 1000),
+    //     emailAddress: paymentIntent.email,
+    //     paymentMethod: paymentIntent.payment_method,
+    // };
+
+    // // Update order status to paid
+    //   order.isPaid = true;
+    //   order.paidAt = new Date();
+    //   await order.save();
+    
       // Send a success response
       res.status(200).json({ message: 'Payment successful', orderId: order._id });
     } catch (error) {
       console.error('Error processing payment:', error);
       res.status(500).json({ message: 'Internal server error' });
-    }
-  });
-  
+    }  
+})
+
 // description : Getting all orders
 // route : GET /api/orders
 // access : Private - only for Admins

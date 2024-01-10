@@ -30,16 +30,15 @@ app.use(express.urlencoded({ extended: true }));
 //     res.send('its working');
 // });
 
-
 app.use(validate);
 
 app.use('/api/orders', orderRoutes);
 app.use('/api/menu', menuRoutes);
 app.use('/api/users', userRoutes);
 
-app.get('/api/stripe', (req, res) => {
-    res.send({ secretKey: process.env.STRIPE_SECRET_KEY });
-  });
+// app.get('/api/stripe', (req, res) => {
+//     res.send({ secretKey: process.env.STRIPE_SECRET_KEY });
+// });
 
 app.use(notFoundError)
 app.use(errorHandler)

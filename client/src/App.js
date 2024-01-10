@@ -13,6 +13,7 @@ import DeliveryPage from './pages/DeliveryPage';
 import PrivateRoutes from './components/PrivateRoutes';
 import CheckoutPage from './pages/CheckoutPage';
 import PaymentPage from './pages/PaymentPage';
+import ProfilePage from './pages/ProfilePage';
 import OrderPage from './pages/OrderPage';
 
 function App() {
@@ -35,8 +36,9 @@ function App() {
           <Route path="/delivery" element={<DeliveryPage />} />   
           <Route path="/payment" element={<PaymentPage/>} />    
           <Route path="/checkout" element={<CheckoutPage/>} />    
-          <Route path="/order/:id" element={<OrderPage />} />
-          
+          <Route path="/order/:id" element={<OrderPage />} /> 
+          <Route path="/profile" element={<ProfilePage />} />
+
           </Route>
           </Routes>
         </div>

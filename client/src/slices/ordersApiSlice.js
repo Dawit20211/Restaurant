@@ -20,6 +20,13 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
             }),
             keepUnusedDataFor: 5,
         }),
+        getAllMyOrders: builder.query({
+            query: () => ({
+                url: `${ORDER_URL}/myorders`,
+                credentials:"include",
+            }),
+            keepUnusedDataFor: 5
+        }),
         // payForOrder: builder.mutation({
         //     query: ( {orderId, details} ) => ({
         //         url: `${ORDER_URL}/${orderId}/paid`,
@@ -34,7 +41,17 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
         //     }),
         //     keepUnusedDataFor: 5,
         // }),
+
+        
     })
 })
 
-export const { useCreateAnOrderMutation, useGetOrderByIdQuery, usePayForOrderMutation, useGetSecretIdQuery} = ordersApiSlice;
+export const { 
+    useCreateAnOrderMutation,
+     useGetOrderByIdQuery, 
+     useGetAllMyOrdersQuery,
+
+    
+     useGetSecretIdQuery
+    
+    } = ordersApiSlice;
