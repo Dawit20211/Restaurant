@@ -1,7 +1,6 @@
 import Menu from '../models/menuModel.js';
 import asyncHandler from 'express-async-handler';
 
-
 const getMenu = asyncHandler(async(req, res) =>{
   try {
     const menu = await Menu.find({});
