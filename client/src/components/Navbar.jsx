@@ -15,6 +15,13 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [isAdminDropdownOpen, setIsAdminDropdownOpen] = useState(false);
+
+  const toggleAdminDropdown = () => {
+    setIsAdminDropdownOpen((prev) => !prev);
+  };
+
+
 
   const toggleDropdown = () => {
     setIsDropdownOpen((prev) => !prev);
@@ -97,7 +104,41 @@ const Navbar = () => {
               Sign In
             </Link>
           </li>)}
-
+          {userDetails && userDetails.isAdmin && (
+          <li className="relative" onClick={toggleAdminDropdown}>
+            <button className="text-white font-bold flex items-center mt-4">
+              Admin Actions <FaUser className="ml-1" />
+            </button>
+            {isAdminDropdownOpen && (
+              <ul className="absolute right-0 mt-2 bg-white border rounded shadow-md">
+                <li>
+                  <Link
+                    to="/admin/listorders"
+                    className="block px-4 py-2 text-black"
+                  >
+                    Orders
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/admin/manageusers"
+                    className="block px-4 py-2 text-black"
+                  >
+                    Manage Users
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/admin/managemenu"
+                    className="block px-4 py-2 text-black"
+                  >
+                    Manage Menu
+                  </Link>
+                </li>
+              </ul>
+            )}
+          </li>
+        )}
         </ul>
       </div>
     </nav>

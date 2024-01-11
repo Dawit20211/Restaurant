@@ -19,6 +19,7 @@ const ProfilePage = () => {
 
   const [updateProfile] = useUpdateProfileMutation();
   const { data: order, isLoading, isError } = useGetAllMyOrdersQuery();
+  console.log(order);
 
   const { userDetails } = useSelector((state) => state.user);
 
@@ -141,7 +142,7 @@ const ProfilePage = () => {
           {isLoading ? (
             <p>Loading orders...</p>
           ) : isError ? (
-            <p>Error loading orders.</p>
+            <p></p>
           ) : (
             <table className="w-full border-collapse">
               <thead>
@@ -163,8 +164,8 @@ const ProfilePage = () => {
    
                     <td className="py-2 border border-orange-300">
                       <Link to={`/order/${order._id}`}>
-                      <Button className="">
-                        Details
+                      <Button className="ml-6">
+                        Order Details
                       </Button>
                       </Link>
                     </td> 

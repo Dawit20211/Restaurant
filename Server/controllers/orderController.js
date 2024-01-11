@@ -70,7 +70,17 @@ const getOrderById = asyncHandler(async(req, res)=>{
 // route : GET /api/orders/:id/delivered
 // access : Private - only for Admins
 const updatingOrderToDelivered = asyncHandler(async(req, res)=>{
-    res.send('delivered')
+    const order = await Order.findById(req.params.id);
+
+    if(order){
+        order.isDelivered = true;
+        order.isDeliveredAt = Date.now();
+        const update = await order.save();
+        res.status(200).json(update);
+    }else{
+        res.status(404)
+        throw new Error ('no order was found');
+    }
 })
 
 // description : updating order to paid 
@@ -121,12 +131,16 @@ const updatingOrderToPaid = asyncHandler(async(req, res)=>{
 // description : Getting all orders
 // route : GET /api/orders
 // access : Private - only for Admins
-const getAllOrders = asyncHandler(async(req, res)=>{
-    res.send('all orders')
-})
+const getAllOrders = asyncHandler(async (req, res) => {
+  
+ 
+    const orders = await Order.find({}).populate('user').exec();
+    res.status(200).json(orders);
+    
+});
 
 export {createOrders, 
-    getAllOrders, 
+    getAllOrders,
     updatingOrderToDelivered, 
     updatingOrderToPaid, 
     getMyOrder,getOrderById
