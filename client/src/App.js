@@ -17,6 +17,7 @@ import ProfilePage from "./pages/ProfilePage";
 import OrderPage from "./pages/OrderPage";
 import AdminRoutes from "./components/AdminRoutes";
 import ListMenu from "./pages/AdminPages/ListMenu";
+import EditMenu from "./pages/AdminPages/EditMenu";
 import ListOfOrdersPage from "./pages/AdminPages/ListOfOrdersPage";
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
             <Route path="/admin/*" element={<AdminRoutes />}>
               <Route path="listorders" element={<ListOfOrdersPage />} />
               <Route path="listmenu" element={<ListMenu/>} />
+              <Route path="menu/:id/edit" element={<EditMenu/>} />
             </Route>
           </Routes>
         </div>

@@ -1,14 +1,25 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import { 
-    getMenu, 
-    getMenuById,
+import {
+  getMenu,
+  getMenuById,
+  updateMenu,
+  addNewItemToMenu,
+} from "../controllers/menuController.js";
 
-} from '../controllers/menuController.js';
+import {
+  ensureAuthenticated,
+  adminOnly,
+} from "../middleware/authMiddleware/protectionMiddleware.js";
 
-router.get('/', getMenu);
+router
+  .route("/")
+  .get(getMenu)
+  .post(ensureAuthenticated, adminOnly, addNewItemToMenu);
 
-router.get('/:id', getMenuById)
-
+router
+  .route("/:id")
+  .get(getMenuById)
+  .put(ensureAuthenticated, adminOnly, updateMenu);
 
 export default router;

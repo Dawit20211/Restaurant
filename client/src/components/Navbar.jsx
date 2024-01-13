@@ -121,7 +121,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/admin/manageusers"
+                    to="/admin/listusers"
                     className="block px-4 py-2 text-black"
                   >
                     Manage Users
@@ -129,7 +129,7 @@ const Navbar = () => {
                 </li>
                 <li>
                   <Link
-                    to="/admin/managemenu"
+                    to="/admin/listmenu"
                     className="block px-4 py-2 text-black"
                   >
                     Manage Menu

@@ -155,8 +155,8 @@ const getUserById = asyncHandler(async (req,res) => {
 })
 
 
-//@desc   Update user by their id 
-//@route  PUT /api/users/:id
+//description Update user by their id 
+//route  PUT /api/users/:id
 //access  Private - only Admins 
 const updateUser = asyncHandler(async (req, res)=>{
     res.json('update user')
@@ -170,12 +170,13 @@ const deleteUserById = asyncHandler(async (req, res) => {
     const id = req.params.id;
 
     const user = await User.deleteOne({ _id: id });
-
+    
     if (user.deletedCount > 0) {
         res.status(200).send('User is deleted!');
     } else {
         res.status(404).send('User not found');
     }
+
 });
 
 export {

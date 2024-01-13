@@ -60,9 +60,9 @@ const SingleItemPage = () => {
             <div className="flex items-center mb-4">
               <span className="text-black font-bold text-lg">{`£${menu.price.toFixed(2)}`}</span>
               {menu.isAvailable ? (
-                <span className="text-balck-500 ml-2">In Stock</span>
+                <span className="text-balck-500 ml-2"> Available </span>
               ) : (
-                <span className="text-black-500 ml-2">Out Of Stock </span>
+                <span className="text-black-500 ml-2"> Not Available </span>
               )}
             </div>
             {menu.isAvailable && (
