@@ -1,19 +1,26 @@
 import React from "react";
-import { useGetMenusQuery, useAddNewIemToMenuMutation } from "../../slices/menusApiSlice";
+import { useGetMenusQuery, useAddNewIemToMenuMutation, useDeleteAnItemFromMenuMutation } from "../../slices/menusApiSlice";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 import { toast } from 'sonner'
+import { useParams } from "react-router-dom";
 
 const ListMenu = () => {
+
+  
+
   const { data: menu, isLoading, error, refetch } = useGetMenusQuery();
 
   const [addNewIemToMenu,  {isLoading: Loading}] = useAddNewIemToMenuMutation();
 
-const addNewItemToMenu = async ()=>{
+
+  const [deleteAnItemFromMenu,  {isLoading : loadingForDelete}] = useDeleteAnItemFromMenuMutation();
+
+const addNewItemToMenu = async (id)=>{
     if(window.confirm('You would like to a new item to the menu list?')){
       try {
-          await addNewIemToMenu();
+          await addNewIemToMenu(id);
           refetch();
 
       } catch (error) {
@@ -21,11 +28,19 @@ const addNewItemToMenu = async ()=>{
       }
     }
 } 
+ 
 
-
-const deleteMenuItem = async () =>{
-    
-}
+const deleteMenuItem = async (id) =>{
+    const confirm = window.confirm('You would like to delete this item from the menu list?');
+    if(confirm){
+      try {
+        await deleteAnItemFromMenu(id);
+        refetch();
+      } catch (error) {
+        toast.error(error);
+      }
+    }
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -74,7 +89,7 @@ const deleteMenuItem = async () =>{
                       </Button>
                     </Link> 
                     <Button className="bg-red-500 p-2 rounded hover:bg-red-600" 
-                    onClick={deleteMenuItem}>
+                    onClick={()=>deleteMenuItem(menuItem._id)}>
                       <TrashIcon className="w-5 h-5 text-white" />
                     </Button>
                   </div>
