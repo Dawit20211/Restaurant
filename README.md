@@ -3,6 +3,7 @@
 
 # What is SuFlavours?
 
+![Screenshot 2024-01-14 at 04 38 12](https://github.com/Dawit20211/Restaurant/assets/91669031/d74213b3-5393-4434-b45c-2dfc53921232)
 
 #### Frontend:
 - ![React Native](https://img.shields.io/badge/react_native-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
