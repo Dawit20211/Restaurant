@@ -1,6 +1,11 @@
-import jwt from 'jsonwebtoken'
-import User from '../../models/userModel.js'
-import asyncHandler from 'express-async-handler';
+// import jwt from 'jsonwebtoken'
+// import User from '../../models/userModel.js'
+// import asyncHandler from 'express-async-handler';
+
+const jwt = require('jsonwebtoken');
+const User = require('../../models/userModel.js');
+const asyncHandler = require('express-async-handler');
+
 
 // for protected routes
 const ensureAuthenticated = asyncHandler(async (req, res, next) => {
@@ -44,4 +49,4 @@ const adminOnly = (req, res, next) => {
     }  
 }
 
-export { ensureAuthenticated, adminOnly}
+module.exports = { ensureAuthenticated, adminOnly}

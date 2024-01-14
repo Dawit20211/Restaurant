@@ -2,6 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import {
   useGetOrderByIdQuery,
   useUpdateDeliveryMutation,
+  usePayForOrderMutation,
 } from "../slices/ordersApiSlice";
 import { useEffect, useState } from "react";
 import { Toaster, toast } from "sonner";
@@ -13,59 +14,60 @@ import Button from "../components/Button";
 
 const OrderPage = () => {
   const [paymentStatus, setPaymentStatus] = useState(null);
-  const { userDetails } = useSelector((state) => state.user)
+  const { userDetails } = useSelector((state) => state.user);
 
-  //const [payForOrder] = usePayForOrderMutation();
+  const [payForOrder] = usePayForOrderMutation();
 
   const publishableKey =
     "pk_test_51OWiSqLUIWoGMciLmhu9Mn3MJmZre72jYqF9NqtwpP2410LK7NtemmFFgCSno9D0QR5DpHnapfV1QTy0CgbGroFm00p1nQZzwk"; // Replace with your actual Stripe publishable key
 
-  const { id } = useParams();
+  const { id: orderId } = useParams();
 
-  const { data: order, isLoading, error, refetch } = useGetOrderByIdQuery(id);
+  const {
+    data: order,
+    isLoading,
+    error,
+    refetch,
+  } = useGetOrderByIdQuery(orderId);
 
   const [updateDelivery, { isLoading: loadDelivery }] =
     useUpdateDeliveryMutation();
 
-  // Stripe onApprove function
-  // const onApprove = async (data, actions) => {
-  //   return actions.order.capture().then(async function (details) {
-  //     try {
-  //       const response = await payForOrder({ id, details });
-  //       setPaymentStatus(response.data ? 'success' : 'failed');
-  //       refetch(); // Refetch order data after payment
-  //       toast.success('Order paid successfully');
-  //     } catch (error) {
-  //       setPaymentStatus('failed');
-  //       toast.error(error?.data?.message || 'Payment failed');
-  //     }
-  //   });
-  // };
+  const markOrderAsDelivered = async () => {
+    try {
+      await updateDelivery(orderId);
 
-  // const payNow = async (token, token2) => {
-  //   try {
-  //     const response = await payForOrder({
-  //       orderId: id,
-  //       details: { token },
-  //     });
+      toast.success("Order delivered successfully");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
+ 
+  const handlePaymentSuccess = async (paymentResult) => {
+    try {
+      const res = await payForOrder({
+        orderId: order._id,
+        paymentResult: paymentResult,
+      });
 
-  //     if (response.data) {
-  //       setPaymentStatus('success');
-  //       await refetch(); // Wait for the refetch to complete
-  //       toast.success('Order paid successfully');
-  //     }
-  //   } catch (error) {
-  //     setPaymentStatus('failed');
-  //     toast.error(error?.data?.message || 'Payment failed');
-  //   }
-  // };
+      if (res.data.status === "success") {
+        toast.success("Payment successful");
+      } else {
+        toast.error("Payment failed");
+      }
 
-  // && stripe?.secretKey
+      setPaymentStatus("success");
 
+      toast.success("Payment successful");
 
-  const markAsDelivered = async() =>{
+      refetch();
+    } catch (error) {
+      toast.error(error.message);
+      setPaymentStatus("failed");
+    }
+  };
 
-  }
+  const markAsDelivered = async () => {};
 
   return isLoading ? (
     <div>Loading...</div>
@@ -189,28 +191,29 @@ const OrderPage = () => {
               <span>£{order.totalPrice}</span>
             </div>
 
-            <div className="">
-              {/* {paymentStatus !== 'success'&& (
-          <StripeCheckout
-            stripeKey={publishableKey}
-            label="Pay Now"
-            name="Pay With Credit Card"
-            paymentMethod='card'
-            amount={Math.round(order.totalPrice * 100)}
-            description={`Your total is £${order.totalPrice}`}
-            token={payNow} 
-            token2={onApprove}
-          /> */}
-              {/* )} */}
+            <div>
+              {paymentStatus !== "success" && (
+                <StripeCheckout
+                  stripeKey={publishableKey}
+                  label="Pay Now"
+                  name="Pay With Credit Card"
+                  token={handlePaymentSuccess}
+                  amount={Math.round(order.totalPrice * 100)}
+                  description={`Your total is £${order.totalPrice}`}
+                />
+              )}
               {/* {loadingStripe && <div>Loading Stripe...</div>} */}
             </div>
             <div>
-        {userDetails && userDetails.isAdmin && !order.isPaid && !order.isDelivered && (
-          <Button onClick={markAsDelivered}>
-            Mark As Order Delivered
-          </Button>
-        )} 
-      </div>
+              {userDetails &&
+                userDetails.isAdmin &&
+                !order.isPaid &&
+                !order.isDelivered && (
+                  <Button onClick={markOrderAsDelivered}>
+                    Mark As Order Delivered
+                  </Button>
+                )}
+            </div>
           </div>
         </div>
       </div>

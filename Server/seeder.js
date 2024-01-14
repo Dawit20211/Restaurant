@@ -1,11 +1,21 @@
-import dotenv from "dotenv";
-import users from "./data/users.js";
-import colors from "colors";
-import menu from "./data/menu.js";
-import User from "./models/userModel.js";
-import Menu from "./models/menuModel.js";
-import Order from "./models/orderModel.js";
-import connectDB from "./config/db.js";
+// import dotenv from "dotenv";
+// import users from "./data/users.js";
+// import colors from "colors";
+// import menu from "./data/menu.js";
+// import User from "./models/userModel.js";
+// import Menu from "./models/menuModel.js";
+// import Order from "./models/orderModel.js";
+// import connectDB from "./config/db.js";
+
+const dotenv = require("dotenv");
+const users = require("./data/users.js");
+const colors = require("colors");
+const menu = require("./data/menu.js");
+const User = require("./models/userModel.js");
+const Menu = require("./models/menuModel.js");
+const Order = require("./models/orderModel.js");
+const connectDB = require("./config/db.js");
+
 
 dotenv.config();
 connectDB

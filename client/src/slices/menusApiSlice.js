@@ -8,7 +8,6 @@ export const menusApiSlice = apiSlice.injectEndpoints({
         url: MENU_URL,
         method: "GET",
       }),
-      providesTags: ["Menu"],
       keepUnusedDataFor: 5,
     }),
 
@@ -36,6 +35,13 @@ export const menusApiSlice = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ["Menu"],
     }),
+    deleteAnItemFromMenu: builder.mutation({
+      query: (id) => ({
+        url: `${MENU_URL}/${id}`,
+        method: 'DELETE',
+        credentials:"include",
+      })
+    })
   }),
 });
 
@@ -43,5 +49,7 @@ export const {
   useGetMenusQuery,
   useAddNewIemToMenuMutation,
   useUpdateMenuMutation,
+
+  useDeleteAnItemFromMenuMutation,
   useGetMenuQuery,
 } = menusApiSlice;

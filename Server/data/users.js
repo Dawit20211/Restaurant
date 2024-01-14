@@ -1,4 +1,4 @@
-import bcrypt from 'bcryptjs';
+const bcrypt = require('bcryptjs');
 
 const users = [{
     name: " Dawit Habte",
@@ -30,4 +30,5 @@ const users = [{
     phoneNumber: "08483482983",
     isAdmin: false,
 }]
-export default users;
+
+module.exports = users;

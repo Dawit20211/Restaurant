@@ -11,7 +11,6 @@ const DeliveryPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
   
-    // Use useSelector to get the delivery address from the Redux store
     const deliveryAddress = useSelector((state) => state.foodCart.deliveryAddress);
   
     useEffect(() => {

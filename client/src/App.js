@@ -18,6 +18,8 @@ import OrderPage from "./pages/OrderPage";
 import AdminRoutes from "./components/AdminRoutes";
 import ListMenu from "./pages/AdminPages/ListMenu";
 import EditMenu from "./pages/AdminPages/EditMenu";
+import EditUser from "./pages/AdminPages/EditUser";
+import ListAllUsers from "./pages/AdminPages/ListAllUsers";
 import ListOfOrdersPage from "./pages/AdminPages/ListOfOrdersPage";
 
 function App() {
@@ -48,7 +50,9 @@ function App() {
             <Route path="/admin/*" element={<AdminRoutes />}>
               <Route path="listorders" element={<ListOfOrdersPage />} />
               <Route path="listmenu" element={<ListMenu/>} />
-              <Route path="menu/:id/edit" element={<EditMenu/>} />
+              <Route path="menu/:id/edit" element={<EditMenu/>}/>
+              <Route path="listusers" element={<ListAllUsers/>}/>
+              <Route path="users/:id/edit" element={<EditUser/>}/>
             </Route>
           </Routes>
         </div>

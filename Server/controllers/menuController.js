@@ -1,5 +1,8 @@
-import Menu from "../models/menuModel.js";
-import asyncHandler from "express-async-handler";
+// import Menu from "../models/menuModel.js";
+// import asyncHandler from "express-async-handler";
+
+const Menu = require("../models/menuModel");
+const asyncHandler = require("express-async-handler");
 
 // description : get all the menu items
 // route :  GET /api/menu
@@ -49,7 +52,7 @@ const addNewItemToMenu = asyncHandler(async (req, res) => {
 const updateMenu = asyncHandler(async (req, res) => {
   try {
     const data = await Menu.findByIdAndUpdate(req.params.id, req.body, { new: true });
-      res.json(data)
+      res.status(200).json(data)
     }
   catch (error) {
     res.status(500).json({
@@ -58,4 +61,25 @@ const updateMenu = asyncHandler(async (req, res) => {
   }
 });
 
-export { getMenu, getMenuById, addNewItemToMenu, updateMenu };
+// description : delete ana item from the menu
+// route :  DELETE /api/menu/:id
+// admin only - private 
+const deleteItemFromMenu = asyncHandler(async (req, res) => {
+  try {
+    const data = await Menu.findOneAndDelete({ _id: req.params.id });
+    res.status(200).json(data)
+  }
+  catch (error) {
+    res.status(500)
+    throw new Error ( 'not found')
+  }
+});
+
+// export { getMenu, getMenuById, addNewItemToMenu, updateMenu, deleteItemFromMenu };
+module.exports = {
+  getMenu,
+  getMenuById,
+  addNewItemToMenu,
+  updateMenu,
+  deleteItemFromMenu
+};

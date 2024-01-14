@@ -1,4 +1,6 @@
-import { body, validationResult} from 'express-validator';
+// import { body, validationResult} from 'express-validator';
+const { body, validationResult } = require('express-validator');
+
 
 // login validations 
 const validateLogin = [
@@ -47,4 +49,4 @@ const validate = (req, res, next) => {
   next();
 };
 
-export { validate, validateLogin, validateRegister }
+module.exports = { validate, validateLogin, validateRegister }

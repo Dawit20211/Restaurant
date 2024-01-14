@@ -1,16 +1,22 @@
-import express from "express";
+const express = require("express");
+
 const router = express.Router();
-import {
+const menuController = require('../controllers/menuController.js');
+const protectionMiddleware = require('../middleware/authMiddleware/protectionMiddleware.js');
+
+const {
   getMenu,
   getMenuById,
   updateMenu,
-  addNewItemToMenu,
-} from "../controllers/menuController.js";
+  deleteItemFromMenu,
+  addNewItemToMenu
+} = menuController;
 
-import {
+const {
   ensureAuthenticated,
-  adminOnly,
-} from "../middleware/authMiddleware/protectionMiddleware.js";
+  adminOnly
+} = protectionMiddleware;
+
 
 router
   .route("/")
@@ -20,6 +26,7 @@ router
 router
   .route("/:id")
   .get(getMenuById)
-  .put(ensureAuthenticated, adminOnly, updateMenu);
+  .put(ensureAuthenticated, adminOnly, updateMenu)
+  .delete(ensureAuthenticated, adminOnly, deleteItemFromMenu); 
 
-export default router;
+  module.exports = router;

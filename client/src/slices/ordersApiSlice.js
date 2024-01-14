@@ -40,23 +40,15 @@ export const ordersApiSlice = apiSlice.injectEndpoints({
                 method: 'PUT',
                 credentials: "include",
             })
-        })
-        // payForOrder: builder.mutation({
-        //     query: ( {orderId, details} ) => ({
-        //         url: `${ORDER_URL}/${orderId}/paid`,
-        //         method: 'PUT',
-        //         body: {...details},
-        //         credentials:"include",
-        //     }),
-        // }),
-        // getSecretId: builder.query({
-        //     query: () => ({
-        //         url: STRIPE_URL,
-        //     }),
-        //     keepUnusedDataFor: 5,
-        // }),
-
-        
+        }),
+        payForOrder: builder.mutation({
+            query: ( {orderId, data} ) => ({
+                url: `${ORDER_URL}/${orderId}/paid`,
+                method: 'PUT', 
+                body: {...data},
+                credentials:"include",
+            }),
+        }),        
     })
 })
 
@@ -66,6 +58,7 @@ export const {
      useGetAllMyOrdersQuery,
      useUpdateDeliveryMutation,
      useGetAllOrdersQuery,
-    
+
+     usePayForOrderMutation,
 
     } = ordersApiSlice;

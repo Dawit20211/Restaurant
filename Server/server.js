@@ -1,17 +1,30 @@
-import express from 'express';
-import dotenv from 'dotenv';
-import cors from 'cors';
-import connectDB from './config/db.js';
-import cookieParser from 'cookie-parser';
-import { notFoundError, errorHandler } from './middleware/errorHandelMiddleware.js';
-import { validate } from './middleware/validationMiddleware/authValidation.js';
-import orderRoutes from './routes/orderRoutes.js';
-import menuRoutes from './routes/menuRoutes.js';
-import userRoutes from './routes/userRoutes.js';
+// import express from 'express';
+// import dotenv from 'dotenv';
+// import cors from 'cors';
+// import connectDB from './config/db.js';
+// import cookieParser from 'cookie-parser';
+// import { notFoundError, errorHandler } from './middleware/errorHandelMiddleware.js';
+// import { validate } from './middleware/validationMiddleware/authValidation.js';
+// import orderRoutes from './routes/orderRoutes.js';
+// import menuRoutes from './routes/menuRoutes.js';
+// import userRoutes from './routes/userRoutes.js';
+
+const express = require('express');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const connectDB = require('./config/db.js');
+const cookieParser = require('cookie-parser');
+const { notFoundError, errorHandler } = require('./middleware/errorHandelMiddleware.js');
+const { validate } = require('./middleware/validationMiddleware/authValidation.js');
+const orderRoutes = require('./routes/orderRoutes.js');
+const menuRoutes = require('./routes/menuRoutes.js');
+const userRoutes = require('./routes/userRoutes.js');
+
 
 dotenv.config();
 const app = express();
 connectDB(); 
+
 const port = process.env.PORT || 8000;
 
 const corsOptions ={

@@ -10,7 +10,7 @@ import { toast } from "sonner";
 
 const EditMenu = () => {
   const { id: menuId } = useParams();
-  // console.log("menuId:", menuId);
+  // console.log("menuId:", menuId); 
 
   const { data: menu, isLoading, error } = useGetMenuQuery(menuId);
 
@@ -21,6 +21,7 @@ const EditMenu = () => {
   const [image, setImage] = useState("");
   const [description, setDescription] = useState("");
   const [numReviews, setNumReviews] = useState("");
+  const [price, setPrice] = useState("");
   const [isAvailable, setIsAvailable] = useState("");
   const [rating, setRating] = useState("");
 
@@ -31,17 +32,18 @@ const EditMenu = () => {
         setDescription(menu.description);
         setNumReviews(menu.numReviews);
         setIsAvailable(menu.isAvailable);
+        setPrice(menu.price);
         setRating(menu.rating);
       }
     }, [menu]);
 
   const handleUpdateMenu = async (e) => {
-    console.log("name:", name);
-    console.log("image:", image);
-    console.log("description:", description);
-    console.log("numReviews:", numReviews);
-    console.log("isAvailable:", isAvailable);
-    console.log("rating:", rating);
+    // console.log("name:", name);
+    // console.log("image:", image);
+    // console.log("description:", description);
+    // console.log("numReviews:", numReviews);
+    // console.log("isAvailable:", isAvailable);
+    // console.log("rating:", rating);
 
     e.preventDefault();
     try {
@@ -50,6 +52,7 @@ const EditMenu = () => {
         name,
         numReviews,
         image,
+        price,
         rating,
         description,
         isAvailable,
@@ -111,6 +114,19 @@ const EditMenu = () => {
             id="description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
+            className="form-input mt-1 block w-full border rounded-md shadow-sm"
+          />
+        </div>
+
+        <div className="mb-4">
+          <label htmlFor="price" className="block text-sm font-semibold">
+            Description
+          </label>
+          <input 
+            type="text"
+            id="price"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
             className="form-input mt-1 block w-full border rounded-md shadow-sm"
           />
         </div>
