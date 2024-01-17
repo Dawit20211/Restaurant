@@ -2,7 +2,6 @@
   "name": "restaurant",
   "version": "1.0.0",
   "description": "Restaurant website",
-  
   "main": "index.js",
   "repository": "https://github.com/Dawit20211/Restaurant-.git",
   "author": "Dawit20211 <dawit.habte@students.plymouth.ac.uk>",
@@ -18,5 +17,8 @@
   },
   "jest": {
     "testEnvironment": "node"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
   }
 }
