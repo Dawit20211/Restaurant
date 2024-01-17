@@ -165,7 +165,7 @@ const ProfilePage = () => {
                     <td className="py-2 border border-orange-300">
                       <Link to={`/order/${order._id}`}>
                       <Button className="ml-6">
-                        Order Details
+                        Order Details 
                       </Button>
                       </Link>
                     </td> 

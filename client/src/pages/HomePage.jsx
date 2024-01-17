@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import sushi from '../Assets/sushi.jpg';
 
+
 const HomePage = () => {
   const backgroundImageStyle = {
     backgroundImage: `url(${sushi})`,
@@ -9,6 +10,7 @@ const HomePage = () => {
     backgroundPosition: 'center',
   };
 
+ 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center text-white" style={{ ...backgroundImageStyle}}>
       <h1 className="text-4xl font-bold mb-4 ">Welcome to SuFlavours</h1>

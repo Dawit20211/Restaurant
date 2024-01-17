@@ -9,53 +9,113 @@
 // import menuRoutes from './routes/menuRoutes.js';
 // import userRoutes from './routes/userRoutes.js';
 
-const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const connectDB = require('./config/db.js');
-const cookieParser = require('cookie-parser');
-const { notFoundError, errorHandler } = require('./middleware/errorHandelMiddleware.js');
-const { validate } = require('./middleware/validationMiddleware/authValidation.js');
-const orderRoutes = require('./routes/orderRoutes.js');
-const menuRoutes = require('./routes/menuRoutes.js');
-const userRoutes = require('./routes/userRoutes.js');
+const express = require("express");
+const dotenv = require("dotenv");
+const http = require("http");
+const socketIo = require("socket.io");
+const { Server } = socketIo;
+const cors = require("cors");
+const connectDB = require("./config/db.js");
+const cookieParser = require("cookie-parser");
+const {
+  notFoundError,
+  errorHandler,
+} = require("./middleware/errorHandelMiddleware.js");
+const {
+  validate,
+} = require("./middleware/validationMiddleware/authValidation.js");
 
+const orderRoutes = require("./routes/orderRoutes.js");
+const menuRoutes = require("./routes/menuRoutes.js");
+const userRoutes = require("./routes/userRoutes.js");
 
 dotenv.config();
+
 const app = express();
-connectDB(); 
+const server = http.createServer(app);
+
+connectDB(); // connect to database
+
+//setting up corse config to allow access to the server
+const corsOptions = {
+  origin: ["http://localhost:3000", "http://10.86.76.82:3000"],
+  credentials: true,
+};
+app.use(cors(corsOptions));
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    Credentials: true,
+    methods: ["GET", "POST"],
+  },
+});
 
 const port = process.env.PORT || 8000;
 
-const corsOptions ={
-    origin:'http://localhost:3000',
-    credentials:true,  
-}
-
-app.use(cors(corsOptions));
-
+//middlewares for parsing json and urlencoded data
 app.use(express.json());
-app.use(cookieParser());// allow access to req.cookies
+app.use(cookieParser()); // allow access to req.cookies
 app.use(express.urlencoded({ extended: true }));
 
+let adminSockets = []; // to store admins
 
-// app.get('/', (req, res) => {
-//     res.send('its working');
-// });
+io.on("connection", (socket) => {
+  socket.request.user = null;
+
+  //get user data if available
+  if (socket.handshake.query.user) {
+    try {
+      socket.request.user = JSON.parse(socket.handshake.query.user);
+    } catch (error) {
+      console.error(`Error parsing user data: ${error}`);
+    }
+  }
+  console.log(`User connected: ${socket.id}`);
+
+  // Check if the connected user is an admin
+  const isAdmin = socket.request.user && socket.request.user.isAdmin;
+
+  if (isAdmin) {
+    console.log(`Admin connected: ${socket.id}`);
+    adminSockets.push(socket);
+  }
+
+  socket.on("disconnect", () => {
+    console.log(`User disconnected: ${socket.id}`);
+    adminSockets = adminSockets.filter(
+      (adminSocket) => adminSocket.id !== socket.id
+    );
+  });
+
+  // Listen for paymentSuccess event
+  socket.on("paymentSuccess", (data) => {
+    try {
+      console.log(
+        `Payment successful for order ${data.orderId} by user ${data.userId}`
+      );
+      adminSockets.forEach((adminSocket) => {
+        // sending the admin notification
+        adminSocket.emit(
+          "adminNotification",
+          `Order ${data.orderId} has been placed by user ${data.userId}`
+        );
+      });
+    } catch (error) {
+      console.error(`Error handling paymentSuccess event: ${error}`);
+    }
+  });
+});
 
 app.use(validate);
 
-app.use('/api/orders', orderRoutes);
-app.use('/api/menu', menuRoutes);
-app.use('/api/users', userRoutes);
+app.use("/api/orders", orderRoutes);
+app.use("/api/menu", menuRoutes);
+app.use("/api/users", userRoutes);
 
-// app.get('/api/stripe', (req, res) => {
-//     res.send({ secretKey: process.env.STRIPE_SECRET_KEY });
-// });
+app.use(notFoundError);
+app.use(errorHandler);
 
-app.use(notFoundError)
-app.use(errorHandler)
-
-app.listen(port,() =>{
-    console.log(`server running on port: ${port}`)
-})
+server.listen(port, () => {
+  console.log(`server running on port: ${port}`);
+});
