@@ -6,8 +6,6 @@ const User = require("../models/userModel.js");
 const asyncHandler = require("express-async-handler");
 const createToken = require("../utils/createToken.js");
 
-
-// description : authorize the user and get token
 // route : POST /api/users/login
 // access : Public
 const authUser = asyncHandler(async (req, res) => {
@@ -31,7 +29,6 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-// description : Register User
 // route : POST /api/users/register
 // access : Public
 const registerUser = asyncHandler(async (req, res) => {
@@ -66,7 +63,6 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// description : Logout User and clear the coockie
 // route : POST /api/users/logout
 // access : Private
 const logoutUser = asyncHandler(async (req, res) => {
@@ -77,7 +73,6 @@ const logoutUser = asyncHandler(async (req, res) => {
   res.status(200).json({ message: "Logged out!" });
 });
 
-// description : Get the user profile
 // route : GET /api/users/profile
 // access : Private
 const getUserProfile = asyncHandler(async (req, res) => {
@@ -97,7 +92,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// description : update the user profile
 // route : PUT /api/users/profile
 // access : Private
 const updateUserProfile = asyncHandler(async (req, res) => {
@@ -127,7 +121,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// description : Get all users
 // route : GET /api/users
 // access : Private - only for Admins
 const getAllUsers = asyncHandler(async (req, res) => {
@@ -141,7 +134,6 @@ const getAllUsers = asyncHandler(async (req, res) => {
   }
 });
 
-// description : Get a single user by their id
 // route : GET /api/users/:id
 // access : Private - only Admins
 const getUserById = asyncHandler(async (req, res) => {
@@ -157,7 +149,7 @@ const getUserById = asyncHandler(async (req, res) => {
   }
 });
 
-//description Update user by their id
+
 //route  PUT /api/users/:id
 //access  Private - only Admins
 const updateUser = asyncHandler(async (req, res) => {
@@ -173,7 +165,7 @@ const updateUser = asyncHandler(async (req, res) => {
   }
 });
 
-// description : Delete a user by id
+
 // route : DELETE /api/users/:id
 // access : Private - only Admins
 const deleteUserById = asyncHandler(async (req, res) => {

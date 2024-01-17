@@ -5,21 +5,28 @@ import {
   usePayForOrderMutation,
 } from "../slices/ordersApiSlice";
 import { useEffect, useState } from "react";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 import { useSelector } from "react-redux";
-//import { usePayForOrderMutation } from '../slices/ordersApiSlice';
 import StripeCheckout from "react-stripe-checkout";
-import { useGetSecretIdQuery } from "../slices/ordersApiSlice";
 import Button from "../components/Button";
+import SocketContext from "../SocketContext";
+import { useContext } from "react";
 
 const OrderPage = () => {
+  const socket = useContext(SocketContext);
+
+  useEffect(() => {
+    console.log("Socket value:", socket);
+  }, [socket]);
+
   const [paymentStatus, setPaymentStatus] = useState(null);
+
   const { userDetails } = useSelector((state) => state.user);
+  //console.log(userDetails);
 
   const [payForOrder] = usePayForOrderMutation();
 
-  const publishableKey =
-    "pk_test_51OWiSqLUIWoGMciLmhu9Mn3MJmZre72jYqF9NqtwpP2410LK7NtemmFFgCSno9D0QR5DpHnapfV1QTy0CgbGroFm00p1nQZzwk"; // Replace with your actual Stripe publishable key
+  const publishableKey ="pk_test_51OWiSqLUIWoGMciLmhu9Mn3MJmZre72jYqF9NqtwpP2410LK7NtemmFFgCSno9D0QR5DpHnapfV1QTy0CgbGroFm00p1nQZzwk"; 
 
   const { id: orderId } = useParams();
 
@@ -30,28 +37,46 @@ const OrderPage = () => {
     refetch,
   } = useGetOrderByIdQuery(orderId);
 
-  const [updateDelivery, { isLoading: loadDelivery }] =
-    useUpdateDeliveryMutation();
+  //console.log(order);
+  
+  const [updateDelivery] = useUpdateDeliveryMutation();
 
-  const markOrderAsDelivered = async () => {
-    try {
-      await updateDelivery(orderId);
+  useEffect(() => {
+    if (paymentStatus === "success" && socket) {
+      console.log("Order value:", order);
+      console.log("User details value:", userDetails);
 
-      toast.success("Order delivered successfully");
-    } catch (error) {
-      toast.error(error.message);
+      if (order && order._id && userDetails && userDetails._id) {
+        console.log(`Emitting paymentSuccess event for order ${order._id}`);
+        socket.emit("paymentSuccess", {
+          orderId: order._id,
+          userId: userDetails._id,
+        });
+      } else {
+        console.error(
+          "Either order or userDetails is null. Cannot emit paymentSuccess event"
+        );
+      }
     }
-  };
- 
-  const handlePaymentSuccess = async (paymentResult) => {
+  }, [paymentStatus, socket, order, userDetails]);
+
+  const handlePaymentSuccess = async (token) => {
     try {
       const res = await payForOrder({
         orderId: order._id,
-        paymentResult: paymentResult,
+        data: {
+          stripeToken: token.id,
+          amount: Math.round(order.totalPrice * 100),
+        },
       });
 
-      if (res.data.status === "success") {
+      console.log(`Payment status: ${JSON.stringify(res.data)}`);
+      console.log(`Payment status: ${res.data.message}`);
+
+      if (res.data.message === "payment successful") {
         toast.success("Payment successful");
+
+        console.log(`Socket value: ${socket}`);
       } else {
         toast.error("Payment failed");
       }
@@ -67,7 +92,15 @@ const OrderPage = () => {
     }
   };
 
-  const markAsDelivered = async () => {};
+  const markAsDelivered = async () => {
+    try {
+      await updateDelivery(orderId);
+      toast.success("Order delivered successfully");
+      await refetch();
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return isLoading ? (
     <div>Loading...</div>
@@ -192,24 +225,25 @@ const OrderPage = () => {
             </div>
 
             <div>
-              {paymentStatus !== "success" && (
-                <StripeCheckout
-                  stripeKey={publishableKey}
-                  label="Pay Now"
-                  name="Pay With Credit Card"
-                  token={handlePaymentSuccess}
-                  amount={Math.round(order.totalPrice * 100)}
-                  description={`Your total is £${order.totalPrice}`}
-                />
-              )}
-              {/* {loadingStripe && <div>Loading Stripe...</div>} */}
+              {!order.isPaid &&
+                paymentStatus !== "success" &&
+                !userDetails.isAdmin && (
+                  <StripeCheckout
+                    stripeKey={publishableKey}
+                    label="Pay Now"
+                    name="Pay With Credit Card"
+                    token={handlePaymentSuccess}
+                    amount={Math.round(order.totalPrice * 100)}
+                    description={`Your total is £${order.totalPrice}`}
+                  />
+                )}
             </div>
             <div>
               {userDetails &&
                 userDetails.isAdmin &&
-                !order.isPaid &&
+                order.isPaid &&
                 !order.isDelivered && (
-                  <Button onClick={markOrderAsDelivered}>
+                  <Button onClick={markAsDelivered}>
                     Mark As Order Delivered
                   </Button>
                 )}

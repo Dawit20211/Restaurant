@@ -3,13 +3,16 @@ import { useGetAllOrdersQuery } from "../../slices/ordersApiSlice";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 
+
 const ListOfOrdersPage = () => {
   const { data } = useGetAllOrdersQuery();
+   
+  console.log(data)
 
-  // Check if data exists before mapping over it
   if (!data) {
     return <div>Loading...</div>;
   }
+  
 
   return (
     <div>
@@ -45,7 +48,7 @@ const ListOfOrdersPage = () => {
               <td className="py-2 px-4 border border-orange-300">
                 <input
                   type="checkbox"
-                  checked={order.delivered}
+                  checked={order.isDelivered}
                   readOnly
                   className="m-2"
                 />
@@ -61,5 +64,5 @@ const ListOfOrdersPage = () => {
       </table>
     </div>
   );
-};
+}; 
 export default ListOfOrdersPage;

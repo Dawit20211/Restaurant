@@ -5,11 +5,10 @@
 
 const Order = require("../models/orderModel.js");
 const asyncHandler = require("express-async-handler");
-const Stripe = require('stripe');
+const Stripe = require("stripe");
 require("dotenv").config();
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
-// description : creating a new order
 // route : POST /api/orders
 // access : Private
 const createOrders = asyncHandler(async (req, res) => {
@@ -48,7 +47,6 @@ const createOrders = asyncHandler(async (req, res) => {
   }
 });
 
-// description : gets the users orders
 // route : GET /api/orders/myorders
 // access : Private
 const getMyOrder = asyncHandler(async (req, res) => {
@@ -62,7 +60,6 @@ const getMyOrder = asyncHandler(async (req, res) => {
   }
 });
 
-// description : gets an order by id
 // route : GET /api/orders/:id
 // access : Private
 const getOrderById = asyncHandler(async (req, res) => {
@@ -79,7 +76,7 @@ const getOrderById = asyncHandler(async (req, res) => {
   }
 });
 
-// description : updating order to be delivered
+//updating order to be delivered
 // route : GET /api/orders/:id/delivered
 // access : Private - only for Admins
 const updatingOrderToDelivered = asyncHandler(async (req, res) => {
@@ -96,55 +93,54 @@ const updatingOrderToDelivered = asyncHandler(async (req, res) => {
   }
 });
 
-// description : updating order to paid
+//updating order to paid
 // route : PUT /api/orders/:id/paid
 // access : Private
 const updatingOrderToPaid = asyncHandler(async (req, res) => {
   const orderId = req.params.id;
+  //console.log(req.body);
 
   const order = await Order.findById(orderId);
-  const amountInCents = Math.round(order.totalPrice * 100); 
+  const amountInCents = Math.round(order.totalPrice * 100);
 
   if (!order) {
     res.status(404).json("Order not found");
     return;
   }
   try {
+    const { stripeToken } = req.body; 
+   // console.log("stripeToken", stripeToken);
 
-    const { paymentResult } = req.body;
-    //console.log("paymentResult", paymentResult);
-
-    // Create a payment intent with Stripe
-    const paymentIntent = await stripe.paymentIntents.create({
-      amount: amountInCents,
-      currency: "GBP",
-      payment_method: paymentResult,
+    // Create a charge with Stripe
+    const charge = await stripe.charges.create({
+    amount: amountInCents,
+    currency: "GBP",
+    source: stripeToken, 
+    description: 'Order payment',
     });
-  
-  // Update the order with payment details
-  order.paymentResult = {
-  id: paymentIntent.id,
-  status: paymentIntent.status,
-  updateTime: new Date(paymentIntent.created * 1000),
-  emailAddress: paymentIntent.email,
-  paymentMethod: paymentIntent.payment_Method,
-};
 
-  //console.log("paymentIntent", paymentIntent);
-  
-  // Update order status to paid
-  order.isPaid = true;
-  order.paidAt = new Date();
-  await order.save();
+    if (charge.status === "succeeded") {
+      // Update the order with payment details
+      order.paymentResult = {
+        id: charge.id,
+        status: charge.status,
+        updateTime: new Date(charge.created * 1000),
+        emailAddress: charge.receipt_email,
+      };
 
-    res.status(200).json({ message: "Payment successful", orderId: order._id });
+      // Update order status to paid
+      order.isPaid = true;
+      order.paidAt = new Date();
+      await order.save();
+      res.status(200).json({ message: "Payment successful", orderId: order._id });
+
+    }
   } catch (error) {
     console.error("Error processing payment:", error);
     res.status(500).json({ message: "Internal server error" });
   }
-})
+});
 
-// description : Getting all orders
 // route : GET /api/orders
 // access : Private - only for Admins
 const getAllOrders = asyncHandler(async (req, res) => {
@@ -160,3 +156,5 @@ module.exports = {
   getMyOrder,
   getOrderById,
 };
+
+
