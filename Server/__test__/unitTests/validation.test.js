@@ -63,5 +63,12 @@ describe('Validation Middlewares', () => {
         expect(response.status).toBe(400);
     });
 
+    it('should return 400 Bad Request for missing login data', async () => {
+        const response = await request
+          .post('/login')
+          .send({ email: 'email', password: '' });
+
+        expect(response.status).toBe(400);
+    })
 })  
 
