@@ -36,7 +36,7 @@ function App() {
 
   // Establish a socket connection to the server when the component mounts or when the userDetails change
   useEffect(() => {
-    const newSocket = io("http://localhost:8000", {
+    const newSocket = io("http://10.86.76.82:8000", {
       query: {
         user: JSON.stringify(userDetails),
       },

@@ -38,14 +38,14 @@ connectDB(); // connect to database
 
 //setting up corse config to allow access to the server
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://10.86.76.82:3000"],
+  origin: ["http://10.86.76.82:3000", "http://localhost:3000"],
   credentials: true,
 };
 app.use(cors(corsOptions));
 
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "*",  // allow access from all origins for development purposes only
     Credentials: true,
     methods: ["GET", "POST"],
   },

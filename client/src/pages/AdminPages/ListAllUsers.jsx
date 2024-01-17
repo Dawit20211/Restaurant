@@ -8,12 +8,19 @@ import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 
 const ListAllUsers = () => {
-  const { data: users, isLoading, error } = useGetAllUsersQuery();
+  const { data: users, isLoading, error, refetch} = useGetAllUsersQuery();
   console.log(users);
 
   const [deleteUsers, { isLoading: isDeleting }] = useDeleteUsersMutation();
 
   const addNewUser = async () => {};
+
+  const deleteUser = async (id) => { 
+    if (window.confirm("Are you sure you want to delete this user?")) {
+      await deleteUsers(id);
+      refetch();
+    }
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -70,7 +77,7 @@ const ListAllUsers = () => {
                   </Link>
                   <Button
                     className="bg-red-500 p-2 rounded hover:bg-red-600"
-                    onClick={() => deleteUsers(user._id)}
+                    onClick={() => deleteUser(user._id)} 
                   >
                     <TrashIcon className="w-5 h-5 text-white" />
                   </Button>

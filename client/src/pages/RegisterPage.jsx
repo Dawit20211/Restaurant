@@ -60,7 +60,7 @@ const RegisterPage = () => {
       }
     }
   };
-  
+
   return (
     <FormContainer logo="SuFlavours" buttonText="Sign Up" onSubmit={handleSubmit(onSubmit)}>
       <div className="mb-4">
@@ -69,11 +69,13 @@ const RegisterPage = () => {
         </label>
         <Controller
           name="name"
+          type="text"
           control={control}
           render={({ field }) => (
             <div>
               <input
                 {...field}
+                placeholder="Name" 
                 type="text"
                 className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
               />
@@ -95,6 +97,7 @@ const RegisterPage = () => {
               <input
                 {...field}
                 type="email"
+                placeholder='Email address'
                 className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
               />
               {errors.email && <span className="text-red-500">{errors.email.message}</span>}
@@ -114,6 +117,7 @@ const RegisterPage = () => {
             <div>
               <input
                 {...field}
+                placeholder="Phone Number"
                 type="tel"
                 className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
               />
@@ -132,12 +136,14 @@ const RegisterPage = () => {
         </label>
         <Controller
           name="password"
+          type="password"
           control={control}
           render={({ field }) => (
             <div>
               <input
                 {...field}
                 type="password"
+                placeholder="Password"
                 className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
               />
               {errors.password && <span className="text-red-500">{errors.password.message}</span>}
@@ -158,6 +164,7 @@ const RegisterPage = () => {
               <input
                 {...field}
                 type="password"
+                placeholder="Confirm Password" 
                 className="w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-orange-500 sm:text-sm sm:leading-6"
               />
               {errors.confirmPassword && (

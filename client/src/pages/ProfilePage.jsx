@@ -99,6 +99,7 @@ const ProfilePage = () => {
           </label>
           <input
             type="tel"
+            placeholder="Phone Number"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
             className="w-full rounded-md border px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
@@ -113,7 +114,8 @@ const ProfilePage = () => {
             Password
           </label>
           <input
-            type="tel"
+            type= "password"
+            placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="w-full rounded-md border px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
@@ -128,8 +130,9 @@ const ProfilePage = () => {
             Confirm Password
           </label>
           <input
-            type="tel"
+            type="password"
             value={confirmPassword}
+            placeholder="Confirm Password"
             onChange={(e) => setConfirmPassword(e.target.value)}
             className="w-full rounded-md border px-3 py-2 mt-1 focus:outline-none focus:ring focus:border-blue-300"
           />
