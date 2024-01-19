@@ -15,9 +15,9 @@ import { useContext } from "react";
 const OrderPage = () => {
   const socket = useContext(SocketContext);
 
-  useEffect(() => {
-    console.log("Socket value:", socket);
-  }, [socket]);
+  // useEffect(() => {
+  //   console.log("Socket value:", socket);
+  // }, [socket]);
 
   const [paymentStatus, setPaymentStatus] = useState(null);
 

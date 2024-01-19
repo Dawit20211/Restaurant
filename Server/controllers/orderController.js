@@ -1,8 +1,3 @@
-// import { get } from "mongoose";
-// import Order from "../models/orderModel.js";
-// import asyncHandler from "express-async-handler";
-// import stripe from "stripe";
-
 const Order = require("../models/orderModel.js");
 const asyncHandler = require("express-async-handler");
 const Stripe = require("stripe");
@@ -98,25 +93,24 @@ const updatingOrderToDelivered = asyncHandler(async (req, res) => {
 // access : Private
 const updatingOrderToPaid = asyncHandler(async (req, res) => {
   const orderId = req.params.id;
-  //console.log(req.body);
 
-  const order = await Order.findById(orderId);
-  const amountInCents = Math.round(order.totalPrice * 100);
-
-  if (!order) {
-    res.status(404).json("Order not found");
-    return;
-  }
   try {
-    const { stripeToken } = req.body; 
-   // console.log("stripeToken", stripeToken);
+    const order = await Order.findById(orderId);
 
-    // Create a charge with Stripe
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    const { stripeToken } = req.body;
+
+    const amountInCents = Math.round(order.totalPrice * 100);
+
+    // Creating a charge with Stripe
     const charge = await stripe.charges.create({
-    amount: amountInCents,
-    currency: "GBP",
-    source: stripeToken, 
-    description: 'Order payment',
+      amount: amountInCents,
+      currency: "GBP",
+      source: stripeToken,
+      description: "Order payment",
     });
 
     if (charge.status === "succeeded") {
@@ -132,12 +126,16 @@ const updatingOrderToPaid = asyncHandler(async (req, res) => {
       order.isPaid = true;
       order.paidAt = new Date();
       await order.save();
-      res.status(200).json({ message: "Payment successful", orderId: order._id });
 
+      return res
+        .status(200)
+        .json({ message: "Payment successful", orderId: order._id });
+    } else {
+      return res.status(500).json({ message: "Payment failed" });
     }
   } catch (error) {
     console.error("Error processing payment:", error);
-    res.status(500).json({ message: "Internal server error" });
+    return res.status(500).json({ message: "Internal server error" });
   }
 });
 
@@ -156,5 +154,3 @@ module.exports = {
   getMyOrder,
   getOrderById,
 };
-
-

@@ -1,39 +1,41 @@
-name: Test
-
 on:
   push:
     branches:
-    - main
+      - main
   pull_request:
     branches:
-    - main
+      - main
 
 jobs:
   docker:
     timeout-minutes: 10 
     runs-on: ubuntu-latest
 
+    env:
+      TEST_DATABASE_NAME: ${{ secrets.TEST_MONGODB_URI }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET_SECRET}}
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install node
-      uses: actions/setup-node@v3
-      with:
-        node-version: 20.6.1
-        
-    - name: Start containers
-      run: docker-compose up -d --build
-        
-    - name: Install dependencies
-      run: yarn install
+      - name: Install node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.6.1
 
-    - name: Install Jest
-      run: yarn add --dev jest
-      
-    - name: Run tests
-      run: yarn test
+      - name: Start containers
+        run: docker-compose up -d --build
 
-    - name: Stop containers
-      if: always()
-      run: docker-compose stop
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Install Jest
+        run: yarn add --dev jest
+
+      - name: Run tests
+        run: JWT_SECRET=$JWT_SECRET yarn test
+
+      - name: Stop containers
+        if: always()
+        run: docker-compose stop

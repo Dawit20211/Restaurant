@@ -4,10 +4,6 @@ const { body, validationResult } = require('express-validator');
 
 // login validations 
 const validateLogin = [
-//   (req, res, next) => {
-//     console.log('Executing validateLogin middleware');
-//     next();
-// },
     body('email').isEmail().withMessage('Invalid email format')
     .notEmpty().withMessage('Email is required').normalizeEmail(), 
     body('password').notEmpty().withMessage('Password is required'),
@@ -34,15 +30,6 @@ const validate = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-
-  //   const formattedErrors = errors.array().map(error => {
-  //     return {
-  //         type: error.type,
-  //         path: error.path,
-  //         location: error.location,
-  //         msg: error.value === '' ? `${error.param} is required` : error.msg
-  //     };
-  // });
   return res.status(400).json({ errors: errors.array() });
 
   }
