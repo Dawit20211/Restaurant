@@ -1,7 +1,3 @@
-// import jwt from 'jsonwebtoken'
-// import User from '../../models/userModel.js'
-// import asyncHandler from 'express-async-handler';
-
 const jwt = require('jsonwebtoken');
 const User = require('../../models/userModel.js');
 const asyncHandler = require('express-async-handler');
@@ -44,8 +40,8 @@ const adminOnly = (req, res, next) => {
         next();
     }
     else{
-        res.status(401);
-        throw new Error ('You are not authorised');
+        res.status(401).json({message: 'You are not authorized'});
+        
     }  
 }
 
