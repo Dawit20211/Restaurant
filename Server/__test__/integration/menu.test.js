@@ -12,7 +12,7 @@ const app = express();
 app.use("/api/menu", menuController.getMenu);
 app.post("/api/menu", menuController.addNewItemToMenu);
 app.get("/api/menu/:id", menuController.getMenuById);
-app.put("/api/menu/:id", menuController.updateMenu);
+app.put("/api/menu/:id", menuController.updateMenu)
 app.delete("/api/menu/:id", menuController.deleteItemFromMenu);
 
 const request = supertest(app);
