@@ -8,11 +8,6 @@ const cookieParser = require("cookie-parser");
 
 const accessToken = process.env.JWT_SECRET;
 
-if (!accessToken) {
-  console.error("Access token not found in environment variables.");
-  process.exit(1);
-}
-
 const {
   validate,
   validateRegister,
