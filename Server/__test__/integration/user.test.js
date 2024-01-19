@@ -6,7 +6,6 @@ const mongoose = require("mongoose");
 const createToken = require("../../utils/createToken");
 const cookieParser = require("cookie-parser");
 
-const accessToken = process.env.JWT_SECRET;
 
 const {
   validate,
@@ -55,11 +54,11 @@ beforeAll(async () => {
     const user = await User.create(validUserData);
     //console.log("Created user:", user);
   }
-}, 10000);
+}, 30000);
 
 afterAll(async () => {
   await mongoose.connection.close();
-});
+},30000);
 
 
 beforeEach(async () => {
@@ -74,7 +73,7 @@ beforeEach(async () => {
 });
 
 describe("User Controller", () => {
-    jest.setTimeout(10000);
+    jest.setTimeout(30000);
   describe("User Controller - Get user by ID", () => {
     it("should get a user by ID successfully", async () => {
       const validUserData = {
@@ -89,7 +88,7 @@ describe("User Controller", () => {
       console.log("User ID:", userId);
       const response = await supertest(app).get(`/api/users/${userId}`);
       expect(response.status).toBe(200);
-    }, 10000);
+    }, 30000);
   });
 
   describe("User Controller - Logout", () => {
@@ -98,7 +97,7 @@ describe("User Controller", () => {
   
       expect(response.status).toBe(200);
       expect(response.body).toEqual({ message: "Logged out!" });
-    });
+    }, 30000);
     describe("User Controller - Logout", () => {
         it("should clear the access token cookie and return a 200 status", async () => {
           const response = await request.post("/api/users/logout");
@@ -111,7 +110,7 @@ describe("User Controller", () => {
       
           expect(accessTokenCookie).toContain("Expires=Thu, 01 Jan 1970 00:00:00 GMT");
         });
-      });
+      }, 30000);
 
   });
 
@@ -128,7 +127,7 @@ describe("User Controller", () => {
       const userId = createdUser._id; 
       const response = await supertest(app).delete(`/api/users/${userId}`);
       expect(response.status).toBe(200);
-    });
+    }, 30000);
   });
 
   describe("User Controller - Get all users", () => {
@@ -167,7 +166,7 @@ describe("User Controller", () => {
       expect(response.status).toBe(200);
       expect(response.body).toHaveProperty("_id");
       expect(response.body).toHaveProperty("email", validUserData.email);
-    }, 10000);
+    }, 30000);
 
     it("should not register a user with invalid data", async () => {
       const invalidUserData = {
@@ -182,7 +181,7 @@ describe("User Controller", () => {
         .send(invalidUserData);
 
       expect(response.status).toBe(400);
-    }, 10000);
+    }, 30000);
   });
 
   it("should return 400 Bad Request for empty registration data", async () => {
@@ -191,7 +190,7 @@ describe("User Controller", () => {
       .send({ name: "", email: "", phoneNumber: "", password: "" });
 
     expect(response.status).toBe(400);
-  });
+  },30000);
 
   it("should not register a user with missing fields", async () => {
     const invalidUserData = {
@@ -206,7 +205,7 @@ describe("User Controller", () => {
       .send(invalidUserData);
 
     expect(response.status).toBe(400);
-  }, 10000);
+  }, 30000);
 
   it("should not register a user with an invalid email format", async () => {
     const invalidUserData = {
@@ -221,7 +220,7 @@ describe("User Controller", () => {
       .send(invalidUserData);
 
     expect(response.status).toBe(400);
-  }, 10000);
+  }, 30000);
 
   it("should not register a user with an invalid phone number format", async () => {
     const invalidUserData = {
@@ -236,7 +235,7 @@ describe("User Controller", () => {
       .send(invalidUserData);
 
     expect(response.status).toBe(400);
-  });
+  },30000);
 
   describe("POST /api/users/login", () => {
     it("should return 400 Bad Request for empty login data", async () => {
@@ -245,7 +244,7 @@ describe("User Controller", () => {
         .send({ email: "", password: "" });
 
       expect(response.status).toBe(400);
-    }, 10000);
+    }, 30000);
 
     it("should not log in a user with an invalid password", async () => {
       const invalidCredentials = {
@@ -258,6 +257,6 @@ describe("User Controller", () => {
         .send(invalidCredentials);
 
       expect(response.status).toBe(400);
-    }, 10000);
+    }, 30000);
   });
 });

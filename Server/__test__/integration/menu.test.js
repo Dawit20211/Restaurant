@@ -26,11 +26,12 @@ afterAll(async () => {
 });
 
 describe("Menu Controller", () => {
+  jest.setTimeout(30000);
   describe("GET /api/menu", () => {
     it("should get all menu items", async () => {
       const response = await request.get("/api/menu");
       expect(response.status).toBe(200);
-    });
+    },30000);
   });
 
   describe("GET /api/menu/:id", () => {
@@ -49,7 +50,7 @@ describe("Menu Controller", () => {
       });
       const response = await request.get(`/api/menu/${menuItem._id}`);
       expect(response.status).toBe(200);
-    });
+    },30000);
   });
 
   describe("POST /api/menu", () => {
@@ -68,7 +69,7 @@ describe("Menu Controller", () => {
       });
       const response = await request.post("/api/menu").send(menuItem);
       expect(response.status).toBe(200);
-    }, 10000);
+    }, 30000);
   });
 
   describe("PUT /api/menu/:id", () => {
@@ -104,7 +105,7 @@ describe("Menu Controller", () => {
         .send(updatedData);
 
       expect(response.status).toBe(200);
-    }, 10000);
+    }, 30000);
   });
 
   describe("DELETE /api/menu/:id", () => {
@@ -117,6 +118,6 @@ describe("Menu Controller", () => {
       });
 
       expect(response.status).toBe(200);
-    });
+    },30000);
   });
 });

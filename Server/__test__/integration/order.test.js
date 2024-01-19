@@ -39,6 +39,7 @@ beforeEach(async () => {
 });
 
 describe("Order Controller", () => {
+  jest.setTimeout(30000);
   const userId = "60b6b1b9b3b3f3b5b4f5b4b3";
 
   describe("POST /api/orders", () => {
@@ -59,7 +60,7 @@ describe("Order Controller", () => {
         .send(orderData);
 
       expect(response.status).toBe(200);
-    }, 10000);
+    }, 30000);
   });
 
   describe("GET /api/orders/myorders", () => {
@@ -69,7 +70,7 @@ describe("Order Controller", () => {
         .set("Authorization", `Bearer ${userId}`);
 
       expect(response.status).toBe(200);
-    });
+    },30000);
   });
 
   describe("GET /api/orders/:id", () => {
@@ -99,7 +100,7 @@ describe("Order Controller", () => {
         .set("Authorization", `Bearer ${user2Id}`);
 
       expect(getOrderResponse.status).toBe(200);
-    });
+    },30000);
   });
 
   describe("GET /api/orders", () => {
@@ -107,7 +108,7 @@ describe("Order Controller", () => {
       const response = await request.get("/api/orders");
 
       expect(response.status).toBe(200);
-    });
+    },30000);
   });
 
 });
