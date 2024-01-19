@@ -53,7 +53,7 @@ const ProfilePage = () => {
       }
     }
   };
-
+  
   return (
     <div>
       <FormContainer logo="" buttonText="Update Profile" onSubmit={onSubmit}>

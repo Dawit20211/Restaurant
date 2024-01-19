@@ -59,6 +59,7 @@ const updateMenu = asyncHandler(async (req, res) => {
       message: error.message
     })
   }
+
 });
 
 // description : delete ana item from the menu
@@ -70,7 +71,7 @@ const deleteItemFromMenu = asyncHandler(async (req, res) => {
     res.status(200).json(data)
   }
   catch (error) {
-    res.status(500)
+    res.status(404)
     throw new Error ( 'not found')
   }
 });

@@ -1,7 +1,3 @@
-// import User from "../models/userModel.js";
-// import asyncHandler from "express-async-handler";
-// import createToken from "../utils/createToken.js";
-
 const User = require("../models/userModel.js");
 const asyncHandler = require("express-async-handler");
 const createToken = require("../utils/createToken.js");
@@ -34,7 +30,14 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   const { name, email, phoneNumber, password } = req.body;
 
+  if (!name || !email || !phoneNumber || !password) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
+  //console.log(req.body);
+
   const user = await User.findOne({ email: email });
+  
+  //console.log(user);
 
   if (user) {
     res.status(404);
@@ -47,10 +50,25 @@ const registerUser = asyncHandler(async (req, res) => {
     phoneNumber,
     password,
   });
+   // console.log('Newly registered user:', newUser);
+
+  // if (newUser) {
+  //   createToken(res, newUser._id);
+
+  //   res.status(200).json({
+  //     _id: newUser._id,
+  //     name: newUser.name,
+  //     email: newUser.email,
+  //     isAdmin: newUser.isAdmin,
+  //   });
 
   if (newUser) {
-    createToken(res, newUser._id);
-
+    try {
+      createToken(res, newUser._id);
+    } catch (error) {
+      console.error('Error creating token:', error);
+      return res.status(500).json({ message: 'Error creating token' });
+    }
     res.status(200).json({
       _id: newUser._id,
       name: newUser.name,
@@ -164,7 +182,6 @@ const updateUser = asyncHandler(async (req, res) => {
     });
   }
 });
-
 
 // route : DELETE /api/users/:id
 // access : Private - only Admins
