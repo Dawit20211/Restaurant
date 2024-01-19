@@ -13,6 +13,7 @@ jobs:
 
     env:
       TEST_DATABASE_NAME: ${{ secrets.TEST_MONGODB_URI }}
+      JWT_SECRET: ${{ secrets.JWT_SECRET_SECRET}}
 
     steps:
       - name: Checkout
@@ -33,7 +34,7 @@ jobs:
         run: yarn add --dev jest
 
       - name: Run tests
-        run: yarn test
+        run: JWT_SECRET=$JWT_SECRET yarn test
 
       - name: Stop containers
         if: always()
