@@ -48,9 +48,8 @@ To start SufFlavours using Docker Compose:
    STRIPE_SECRET_KEYL=your-stripe-secret-key
 
    # JWT_SECRET
-   JWT_SECRET=your-jwt-secret 
-
+   JWT_SECRET=your-jwt-secret
+   
    # Running the application 
-   to start the containers in the root of the project run docker-compose up -d
-
-  
+   to start the containers navigate to the root of the project and run the following command :
+   docker-compose up -d
