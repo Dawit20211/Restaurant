@@ -1,14 +1,3 @@
-// import express from 'express';
-// import dotenv from 'dotenv';
-// import cors from 'cors';
-// import connectDB from './config/db.js';
-// import cookieParser from 'cookie-parser';
-// import { notFoundError, errorHandler } from './middleware/errorHandelMiddleware.js';
-// import { validate } from './middleware/validationMiddleware/authValidation.js';
-// import orderRoutes from './routes/orderRoutes.js';
-// import menuRoutes from './routes/menuRoutes.js';
-// import userRoutes from './routes/userRoutes.js';
-
 const express = require("express");
 const dotenv = require("dotenv");
 const http = require("http");
@@ -18,7 +7,7 @@ const cors = require("cors");
 const connectDB = require("./config/db.js");
 const cookieParser = require("cookie-parser");
 const {
-  notFoundError,
+  notFoundError,  
   errorHandler,
 } = require("./middleware/errorHandelMiddleware.js");
 const {
@@ -31,7 +20,7 @@ const userRoutes = require("./routes/userRoutes.js");
 
 dotenv.config();
 
-const app = express();
+const app = express();  
 module.exports = app;
 const server = http.createServer(app);
 
@@ -39,14 +28,14 @@ connectDB(); // connect to database
 
 //setting up corse config to allow access to the server
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "http://10.86.76.82:3000",
   credentials: true,
 };
 app.use(cors(corsOptions));
 
 const io = new Server(server, {
   cors: {
-    origin: "*", // allow access from all origins for development purposes only
+    origin: "http://10.86.76.82:3000", // allow access from all just for development purposes only
     Credentials: true,
     methods: ["GET", "POST"],
   },
