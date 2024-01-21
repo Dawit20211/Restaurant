@@ -1,6 +1,4 @@
-// import { body, validationResult} from 'express-validator';
 const { body, validationResult } = require('express-validator');
-
 
 // login validations 
 const validateLogin = [
@@ -8,7 +6,6 @@ const validateLogin = [
     .notEmpty().withMessage('Email is required').normalizeEmail(), 
     body('password').notEmpty().withMessage('Password is required'),
 ];
-
 
 // register validations 
 const validateRegister = [

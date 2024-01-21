@@ -24,10 +24,11 @@ import ListOfOrders from "./pages/AdminPages/ListOfOrders";
 
 import { useEffect, useState } from "react";
 import io from "socket.io-client";
-import { ToastContainer, toast } from "react-toastify";
+//import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useSelector } from "react-redux";
 import SocketContext from "./SocketContext";
+import {toast} from 'sonner';
 
 function App() {
   const [socket, setSocket] = useState(null);
@@ -36,7 +37,7 @@ function App() {
 
   // Establish a socket connection to the server when the component mounts or when the userDetails change
   useEffect(() => {
-    const newSocket = io("http://localhost:8000", {
+    const newSocket = io("http://10.86.76.82:8000", {
       query: {
         user: JSON.stringify(userDetails),
       },
@@ -50,7 +51,7 @@ function App() {
 
     // Listen for adminNotification events and display a toast with the received message
     newSocket.on("adminNotification", (message) => {
-      toast.info(message);
+      toast.success(message);
     });
 
     return () => newSocket.close();
@@ -93,7 +94,7 @@ function App() {
           <Footer />
         </div>
       </Router>
-      <ToastContainer limit={1} position="top-right" autoClose={5000} />
+      {/* <ToastContainer limit={1} position="top-right" autoClose={5000} /> */}
     </SocketContext.Provider>
   );
 }

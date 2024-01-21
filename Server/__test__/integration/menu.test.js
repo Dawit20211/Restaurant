@@ -12,7 +12,7 @@ const app = express();
 app.use("/api/menu", menuController.getMenu);
 app.post("/api/menu", menuController.addNewItemToMenu);
 app.get("/api/menu/:id", menuController.getMenuById);
-app.put("/api/menu/:id", menuController.updateMenu)
+app.put("/api/menu/:id", menuController.updateMenu);
 app.delete("/api/menu/:id", menuController.deleteItemFromMenu);
 
 const request = supertest(app);
@@ -31,7 +31,7 @@ describe("Menu Controller", () => {
     it("should get all menu items", async () => {
       const response = await request.get("/api/menu");
       expect(response.status).toBe(200);
-    },30000);
+    }, 30000);
   });
 
   describe("GET /api/menu/:id", () => {
@@ -50,7 +50,7 @@ describe("Menu Controller", () => {
       });
       const response = await request.get(`/api/menu/${menuItem._id}`);
       expect(response.status).toBe(200);
-    },30000);
+    }, 30000);
   });
 
   describe("POST /api/menu", () => {
@@ -118,6 +118,6 @@ describe("Menu Controller", () => {
       });
 
       expect(response.status).toBe(200);
-    },30000);
+    }, 30000);
   });
 });
